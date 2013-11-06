@@ -1,11 +1,13 @@
-Antyk(IdAntyk, IdSala, właściciel, opis, ...)
+Antyk(IdAntyk, IdSala ,Autor, właściciel, opis w XML, zdjecie)
 	właściwie całkowita dowolność co-kto-dlaczego
-Sala(IdSala, nazwa, opis, pojemność, ...)
+Sala(IdSala, nazwa, opis, pojemność)
 	sala jest tylko 'fantomem' - zawiera swój opis i tyle
-Wystawa(IdWystawa, tytuł, opis, ...)
+Wystawa(IdWystawa, tytuł, opis)
 	wystawa jest półśrodkiem - podstawowe dane
 zabawa zaczyna się dokładnie tutaj:
-Stan(IdWystawa, IdAntyk, IdSala, opis, ts_start, ts_end, ...)
-	przejebane jest w przypadku, gdy chcemy coś ciepnąć do archiwum/konserwatora, można wtedy IdWystawy := NULL
+Stan(IdWystawa, IdAntyk, IdSala, opis, ts_start, ts_end)
 	plus takiego rozwiązania to, że mamy jak na dłoni historię jednego antyku
+	gdy chcemy coś ciepnąć do archiwum/konserwatora wtedy IdWystawy := NULL z odpowiednim opisem
+	co do ts_start i _end:	można ustawiać jedno lub drugie w ramach wystawy jako info, że dany antyk jest tylko przez jakieś kilka dni
 
+	//moim zdaniem stan może odzwierciedlać właściwie każdą sytuacje, od popsucia, poprzez zwykla wystawe, po wypozyczenie 
