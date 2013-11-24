@@ -1,3 +1,7 @@
+IF DB_ID('muzeum_v2') IS NOT NULL 
+    DROP DATABASE muzeum_v2;
+GO
+
 Create database muzeum_v2
 go
 
