@@ -1,33 +1,36 @@
-CREATE DATABASE IF NOT EXISTS muzeum_v2;
+IF DB_ID('muzeum_v2') IS NOT NULL 
+	DROP DATABASE muzeum_v2;
+
+CREATE DATABASE muzeum_v2;
 GO
 
 USE muzeum_v2;
 GO
 
-CREATE TABLE IF NOT EXISTS Lokalizacja (
+CREATE TABLE Lokalizacja (
 	id_lokalizacji INT IDENTITY NOT NULL PRIMARY KEY,
 	nazwa VARCHAR(45) NOT NULL,
 );
 
-CREATE TABLE IF NOT EXISTS Sala (
+CREATE TABLE Sala (
 	id_sali INT IDENTITY NOT NULL PRIMARY KEY,
 	id_lokalizacji INT NOT NULL REFERENCES Lokalizacja(id_lokalizacji),
 	nazwa VARCHAR(45) NOT NULL,
 	opis VARCHAR(100) NOT NULL,
 );
 
-CREATE TABLE IF NOT EXISTS Bilety (
+CREATE TABLE Bilety (
 	id_biletu INT IDENTITY NOT NULL PRIMARY KEY,
 	nazwa VARCHAR(45) NOT NULL,
 );
 
-CREATE TABLE IF NOT EXISTS Sprzedaz (
+CREATE TABLE Sprzedaz (
 	id_sprzedazy INT IDENTITY NOT NULL PRIMARY KEY,
 	id_biletow INT NOT NULL FOREIGN KEY REFERENCES Bilety(id_biletu),
 	nazwa VARCHAR(45) NOT NULL,
 );
 
-CREATE TABLE IF NOT EXISTS Organizator (
+CREATE TABLE Organizator (
 	id_organizatora INT IDENTITY NOT NULL PRIMARY KEY,
 	nazwa VARCHAR(45) NOT NULL,
 	miasto VARCHAR(45) NOT NULL,
@@ -35,14 +38,14 @@ CREATE TABLE IF NOT EXISTS Organizator (
 	telefon VARCHAR(45) NOT NULL,
 );
 
-CREATE TABLE IF NOT EXISTS Autor (
+CREATE TABLE Autor (
 	id_autora INT IDENTITY NOT NULL PRIMARY KEY,
 	imie VARCHAR(45) NOT NULL,
 	nazwisko VARCHAR(45) NULL,
 	opis VARCHAR(45) NULL,
 );
 
-CREATE TABLE IF NOT EXISTS Wlasciciel (
+CREATE TABLE Wlasciciel (
 	id_wlasciciela INT IDENTITY NOT NULL PRIMARY KEY,
 	nazwa VARCHAR(45) NOT NULL,
 	miasto VARCHAR(45) NOT NULL,
@@ -51,7 +54,7 @@ CREATE TABLE IF NOT EXISTS Wlasciciel (
 	telefon VARCHAR(45) NULL,
 );
 
-CREATE TABLE IF NOT EXISTS Ekspozycja (
+CREATE TABLE Ekspozycja (
 	id_ekspozycji INT IDENTITY NOT NULL PRIMARY KEY,
 	nazwa VARCHAR(45) NOT NULL,
 	id_sprzedazy INT NOT NULL FOREIGN KEY REFERENCES Sprzedaz(id_sprzedazy),
@@ -60,7 +63,7 @@ CREATE TABLE IF NOT EXISTS Ekspozycja (
 	opis VARCHAR(45) NOT NULL,
 );
 
-CREATE TABLE IF NOT EXISTS Eksponat (
+CREATE TABLE Eksponat (
 	id_eksponatu INT IDENTITY NOT NULL PRIMARY KEY,
 	nazwa VARCHAR(45) NOT NULL,
 	opis VARCHAR(100) NOT NULL,
@@ -68,7 +71,7 @@ CREATE TABLE IF NOT EXISTS Eksponat (
 	id_autora INT NOT NULL FOREIGN KEY REFERENCES Autor(id_autora),
 );
 
-CREATE TABLE IF NOT EXISTS Prezentacje (
+CREATE TABLE Prezentacje (
 	id_prezentacje INT IDENTITY NOT NULL PRIMARY KEY,
 	data_rozpoczecia DATE NOT NULL,
 	data_zakonczenia DATE NOT NULL,
@@ -77,7 +80,7 @@ CREATE TABLE IF NOT EXISTS Prezentacje (
 	id_sali INT NOT NULL FOREIGN KEY REFERENCES Sala(id_sali),
 );
 
-CREATE TABLE IF NOT EXISTS Przypisanie (
+CREATE TABLE Przypisanie (
 	id_przypisania INT IDENTITY NOT NULL PRIMARY KEY,
 	id_eksponatu INT NOT NULL FOREIGN KEY REFERENCES Eksponat(id_eksponatu),
 	id_ekspozycji INT NOT NULL FOREIGN KEY REFERENCES Ekspozycja(id_ekspozycji),
