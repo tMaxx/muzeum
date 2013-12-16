@@ -6,8 +6,7 @@
     <Grid Height="334" VerticalAlignment="Top">
 
         <local:PresentationDisplayView HorizontalAlignment="Left" Height="384" Margin="207,17,-20,-67" VerticalAlignment="Top" Width="405"/>
-
-        <Exhibit:ExhibitDisplaySelectorView HorizontalAlignment="Left" Height="397" Margin="7,3,0,-66" VerticalAlignment="Top" Width="230"/>
+        <Exhibit:ExhibitDisplaySelectorView HorizontalAlignment="Left" Margin="12,23,0,-57" VerticalAlignment="Top" Height="368" Width="245"/>
 
     </Grid>
 </Window>

@@ -13,7 +13,7 @@
                     <RowDefinition Height="470*"/>
                     <RowDefinition Height="193*"/>
                 </Grid.RowDefinitions>
-                <vw:ExhibitDisplaySelectorView HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top" Height="450" Width="170" Loaded="ExhibitDisplaySelectorView_Loaded_1" />
+                <vw:ExhibitDisplaySelectorView HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top" Height="450" Width="170"  />
                 <vw:ExhibitDisplayView HorizontalAlignment="Left" Margin="205,0,-103,0" VerticalAlignment="Top" Width="608" Height="445"/>
                 <Presentation:PresentationDisplaySelectorView HorizontalAlignment="Left" Margin="9,463,0,0" VerticalAlignment="Top" Grid.RowSpan="2" Width="689" Height="198"/>
             </Grid>
@@ -38,7 +38,7 @@
             <Grid Background="#FFE5E5E5">
                 <Exposition:ExpositionDisplaySelectorView HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top" Height="675" Width="170" Loaded="ExpositionDisplaySelectorView_Loaded_1"/>
                 <Exposition:ExpositionDisplayView HorizontalAlignment="Left" Margin="205,0,0,0" VerticalAlignment="Top" Width="480" Height="445"/>
-                <vw:ExhibitList HorizontalAlignment="Left" Margin="199,467,0,0" VerticalAlignment="Top" Height="200" Width="496"/>
+                <vw:ExhibitList HorizontalAlignment="Left" Margin="270,467,0,0" VerticalAlignment="Top" Height="200" Width="309" Loaded="ExhibitList_Loaded_1"/>
             </Grid>
         </TabItem>
         <TabItem Header="Organizatorzy">

@@ -71,5 +71,10 @@ namespace muzeum_v3
             App.Messenger.NotifyColleagues("Clear");
         }
 
+        private void ExhibitList_Loaded_1(object sender, RoutedEventArgs e)
+        {
+            App.Messenger.NotifyColleagues("ClearList");
+        }
+
     }
 }

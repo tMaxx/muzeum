@@ -141,6 +141,9 @@
     <Compile Include="Views\Exhibit\ExhibitDisplaySelectorView.xaml.cs">
       <DependentUpon>ExhibitDisplaySelectorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Exhibit\ExhibitDisplaySelectorView2.xaml.cs">
+      <DependentUpon>ExhibitDisplaySelectorView2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Exhibit\ExhibitDisplayView.xaml.cs">
       <DependentUpon>ExhibitDisplayView.xaml</DependentUpon>
     </Compile>
@@ -261,6 +264,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Exhibit\ExhibitDisplaySelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Exhibit\ExhibitDisplaySelectorView2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -74,7 +74,6 @@ namespace muzeum_v3.ViewModels.Presentation
         {
             Messenger messenger = App.Messenger;
             messenger.NotifyColleagues("PresentationSelectionChanged", selectedPresentation);
-           // messenger.NotifyColleagues("ExhibitSelectionChanged", selectedPresentation);
         }
     }
 

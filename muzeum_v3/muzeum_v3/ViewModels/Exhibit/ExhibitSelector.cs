@@ -8,6 +8,8 @@ using System.Text;
 using System.ComponentModel;
 using MvvmFoundation.Wpf;
 using muzeum_v3.ViewModels.Author;
+using System.IO;
+
 namespace muzeum_v3.ViewModels.Exhibit
 {
     class ExhibitSelector : INotifyPropertyChanged
@@ -16,6 +18,10 @@ namespace muzeum_v3.ViewModels.Exhibit
         {
             dataItems = new MyObservableCollection<Exhibit>();
             DataItems = App.ExhibitQuery.GetExhibits();
+
+            dataItemsForExposition = new MyObservableCollection<Exhibit>();
+           // dataItemsForExposition = App.ExhibitQuery.GetExhibits();
+
             listBoxCommand = new RelayCommand(() => SelectionHasChanged());
             App.Messenger.Register("ExpositionSelectionChanged", (Action<Exposition.Exposition>)(param => GetExhibitsForExposition(param)));
             App.Messenger.Register("ExhibitCleared", (Action)(() => SelectedExhibit = null));
@@ -23,13 +29,14 @@ namespace muzeum_v3.ViewModels.Exhibit
             App.Messenger.Register("UpdateExhibit", (Action<Exhibit>)(param => UpdateExhibit(param)));
             App.Messenger.Register("DeleteExhibit", (Action)(() => DeleteExhibit()));
             App.Messenger.Register("AddExhibit", (Action<Exhibit>)(param => AddExhibit(param)));
+             App.Messenger.Register("ClearList", (Action)(() => dataItemsForExposition.Clear()));
         }
 
         private void GetExhibitsForExposition(Exposition.Exposition e)
         {
             if (e != null)
             {
-                DataItems = App.ExhibitQuery.GetExhibitsForExposition(e.ExpositionId);
+                DataItemsForExposition = App.ExhibitQuery.GetExhibitsForExposition(e.ExpositionId);
                 if (App.ExhibitQuery.hasError)
                     App.Messenger.NotifyColleagues("SetStatus", App.ExhibitQuery.errorMessage);
             }
@@ -38,10 +45,20 @@ namespace muzeum_v3.ViewModels.Exhibit
 
         private void GetExhibits()
         {
+            using (StreamWriter writer = new StreamWriter("Eksponaty.txt", true))
+            {
+                foreach (Exhibit e in DataItems)
+                {
+                    writer.WriteLine(e.ExhibitName + "\t" + e.ExhibitId + "\t" + e.Description + "\t" + e.Author + "\t" + e.Owner + "\t" + DataItems.IndexOf(e));
+
+                }
+                writer.WriteLine(DataItems.Count);
+            }
+
             DataItems = App.ExhibitQuery.GetExhibits();
             if (App.ExhibitQuery.hasError)
                 App.Messenger.NotifyColleagues("SetStatus", App.ExhibitQuery.errorMessage);
-            
+
         }
 
         private void AddExhibit(Exhibit e)
@@ -52,6 +69,12 @@ namespace muzeum_v3.ViewModels.Exhibit
 
         private void UpdateExhibit(Exhibit e)
         {
+            using (StreamWriter writer = new StreamWriter("Update.txt", true))
+            {
+               
+                writer.WriteLine(e.ExhibitName + "\t" + e.ExhibitId + "\t" + e.Description + "\t" + e.Author  + "\t" + e.Owner   + "\t" +  DataItems.IndexOf(e));
+                writer.WriteLine(DataItems.Count);
+            }
             if (e == null) return;
             int index = dataItems.IndexOf(selectedExhibit);
             dataItems.ReplaceItem(index, e);
@@ -70,7 +93,6 @@ namespace muzeum_v3.ViewModels.Exhibit
             if (PropertyChanged != null)
                 PropertyChanged(this, e);
         }
-
         private MyObservableCollection<Exhibit> dataItems;
         public MyObservableCollection<Exhibit> DataItems
         {
@@ -78,7 +100,14 @@ namespace muzeum_v3.ViewModels.Exhibit
             //If dataItems replaced by new collection, WPF must be told
             set { dataItems = value; OnPropertyChanged(new PropertyChangedEventArgs("DataItems")); }
         }
-
+        private MyObservableCollection<Exhibit> dataItemsForExposition;
+        public MyObservableCollection<Exhibit> DataItemsForExposition
+        {
+            get { return dataItemsForExposition; }
+            //If dataItems replaced by new collection, WPF must be told
+            set { dataItemsForExposition = value; OnPropertyChanged(new PropertyChangedEventArgs("DataItemsForExposition")); }
+        }
+       
         private Exhibit selectedExhibit;
         public Exhibit SelectedExhibit
         {
@@ -111,7 +140,7 @@ namespace muzeum_v3.ViewModels.Exhibit
 
         public void ReplaceItem(int index, Exhibit item)
         {
-             base.SetItem(index, item);      
+            base.SetItem(index, item);
         }
 
     } // class MyObservableCollection
