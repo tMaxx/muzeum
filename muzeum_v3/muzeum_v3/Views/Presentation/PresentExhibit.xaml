@@ -1,0 +1,13 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:muzeum_v3.Views.Presentation" xmlns:Exhibit="clr-namespace:muzeum_v3.Views.Exhibit" x:Class="muzeum_v3.Views.Presentation.PresentExhibit"
+        Title="PresentExhibit" Height="448" Width="600">
+    <Grid Height="334" VerticalAlignment="Top">
+
+        <local:PresentationDisplayView HorizontalAlignment="Left" Height="384" Margin="207,17,-20,-67" VerticalAlignment="Top" Width="405"/>
+
+        <Exhibit:ExhibitDisplaySelectorView HorizontalAlignment="Left" Height="397" Margin="7,3,0,-66" VerticalAlignment="Top" Width="230"/>
+
+    </Grid>
+</Window>

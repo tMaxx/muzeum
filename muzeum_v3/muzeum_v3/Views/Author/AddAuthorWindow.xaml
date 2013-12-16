@@ -1,0 +1,12 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:muzeum_v3.Views.Author" x:Class="muzeum_v3.Views.Author.AddAuthorWindow"
+        Title="Dodaj autora" Height="500" Width="500">
+    <Grid>
+
+        <local:AuthorDisplaySelectorView HorizontalAlignment="Left" Margin="-2,-2,0,-2" VerticalAlignment="Top" Height="474" Width="172"/>
+        <local:ChooseAuthor HorizontalAlignment="Left" Height="466" Margin="175,0,-3,0" VerticalAlignment="Top" Width="320"/>
+
+    </Grid>
+</Window>

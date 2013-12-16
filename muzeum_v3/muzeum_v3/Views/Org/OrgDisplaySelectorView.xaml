@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="muzeum_v3.Views.Org.OrgDisplaySelectorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vw="clr-namespace:muzeum_v3.Views.Org"        
+    xmlns:vm="clr-namespace:muzeum_v3.ViewModels.Org"
+    xmlns:foundation="clr-namespace:MvvmFoundation.Wpf">
+
+    <UserControl.DataContext>
+        <vm:OrgSelector />
+    </UserControl.DataContext>
+
+    <Grid>
+        <ListBox Margin="10" Background="WhiteSmoke"
+            ItemsSource="{Binding DataItems}" 
+            DisplayMemberPath="OrgName"
+            SelectedItem="{Binding SelectedOrg}"
+            foundation:CommandBehavior.RoutedEventName="SelectionChanged"
+            foundation:CommandBehavior.TheCommandToRun="{Binding Path=ListBoxCommand}">
+        </ListBox>
+    </Grid>
+</UserControl>

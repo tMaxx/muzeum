@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="muzeum_v4" Class="LinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=JA-KOMPUTER;Initial Catalog=muzeum_v4;Integrated Security=True" SettingsObjectName="muzeum_v3.Properties.Settings" SettingsPropertyName="muzeum_v4ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Autor" Member="Autors">
+    <Type Name="Autor">
+      <Column Name="id_autora" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nazwa_autora" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="data_urodzenia" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="data_smierci" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="opis_autora" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Association Name="Autor_Eksponat" Member="Eksponats" ThisKey="id_autora" OtherKey="id_autora" Type="Eksponat" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Wlasciciel" Member="Wlasciciels">
+    <Type Name="Wlasciciel">
+      <Column Name="id_wlasciciela" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nazwa_wlasciciela" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="miasto_wlasciciela" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="kraj_wlasciciela" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="email_wlasciciela" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="telefon_wlasciciela" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Wlasciciel_Eksponat" Member="Eksponats" ThisKey="id_wlasciciela" OtherKey="id_wlasciciela" Type="Eksponat" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Bilet" Member="Bilets">
+    <Type Name="Bilet">
+      <Column Name="id_biletu" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="cena_biletu" Type="System.Decimal" DbType="SmallMoney NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_biletu" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Bilet_Sprzedaz" Member="Sprzedazs" ThisKey="id_biletu" OtherKey="id_biletu" Type="Sprzedaz" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Eksponat" Member="Eksponats">
+    <Type Name="Eksponat">
+      <Column Name="id_eksponatu" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nazwa_eksponatu" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="opis_eksponatu" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="id_wlasciciela" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_autora" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Eksponat_Prezentacje" Member="Prezentacjes" ThisKey="id_eksponatu" OtherKey="id_eksponatu" Type="Prezentacje" />
+      <Association Name="Eksponat_Przypisanie" Member="Przypisanies" ThisKey="id_eksponatu" OtherKey="id_eksponatu" Type="Przypisanie" />
+      <Association Name="Autor_Eksponat" Member="Autor" ThisKey="id_autora" OtherKey="id_autora" Type="Autor" IsForeignKey="true" />
+      <Association Name="Wlasciciel_Eksponat" Member="Wlasciciel" ThisKey="id_wlasciciela" OtherKey="id_wlasciciela" Type="Wlasciciel" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ekspozycja" Member="Ekspozycjas">
+    <Type Name="Ekspozycja">
+      <Column Name="id_ekspozycji" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nazwa_ekspozycji" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="id_organizatora" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_lokalizacji" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="opis_ekspozycji" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Association Name="Ekspozycja_Prezentacje" Member="Prezentacjes" ThisKey="id_ekspozycji" OtherKey="id_ekspozycji" Type="Prezentacje" />
+      <Association Name="Ekspozycja_Przypisanie" Member="Przypisanies" ThisKey="id_ekspozycji" OtherKey="id_ekspozycji" Type="Przypisanie" />
+      <Association Name="Ekspozycja_Sprzedaz" Member="Sprzedazs" ThisKey="id_ekspozycji" OtherKey="id_ekspozycji" Type="Sprzedaz" />
+      <Association Name="Lokalizacja_Ekspozycja" Member="Lokalizacja" ThisKey="id_lokalizacji" OtherKey="id_lokalizacji" Type="Lokalizacja" IsForeignKey="true" />
+      <Association Name="Organizator_Ekspozycja" Member="Organizator" ThisKey="id_organizatora" OtherKey="id_organizatora" Type="Organizator" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Lokalizacja" Member="Lokalizacjas">
+    <Type Name="Lokalizacja">
+      <Column Name="id_lokalizacji" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nazwa_lokalizacji" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="opis_lokalizacji" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Association Name="Lokalizacja_Ekspozycja" Member="Ekspozycjas" ThisKey="id_lokalizacji" OtherKey="id_lokalizacji" Type="Ekspozycja" />
+      <Association Name="Lokalizacja_Sala" Member="Salas" ThisKey="id_lokalizacji" OtherKey="id_lokalizacji" Type="Sala" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Organizator" Member="Organizators">
+    <Type Name="Organizator">
+      <Column Name="id_organizatora" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nazwa_organizatora" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="miasto_organizatora" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="e_mail_organizatora" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="telefon_organizatora" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Organizator_Ekspozycja" Member="Ekspozycjas" ThisKey="id_organizatora" OtherKey="id_organizatora" Type="Ekspozycja" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Prezentacje" Member="Prezentacjes">
+    <Type Name="Prezentacje">
+      <Column Name="id_prezentacji" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="data_rozpoczecia" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="data_zakonczenia" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="id_eksponatu" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_ekspozycji" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_sali" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Eksponat_Prezentacje" Member="Eksponat" ThisKey="id_eksponatu" OtherKey="id_eksponatu" Type="Eksponat" IsForeignKey="true" />
+      <Association Name="Ekspozycja_Prezentacje" Member="Ekspozycja" ThisKey="id_ekspozycji" OtherKey="id_ekspozycji" Type="Ekspozycja" IsForeignKey="true" />
+      <Association Name="Sala_Prezentacje" Member="Sala" ThisKey="id_sali" OtherKey="id_sali" Type="Sala" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Przypisanie" Member="Przypisanies">
+    <Type Name="Przypisanie">
+      <Column Name="id_przypisania" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_eksponatu" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_ekspozycji" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Eksponat_Przypisanie" Member="Eksponat" ThisKey="id_eksponatu" OtherKey="id_eksponatu" Type="Eksponat" IsForeignKey="true" />
+      <Association Name="Ekspozycja_Przypisanie" Member="Ekspozycja" ThisKey="id_ekspozycji" OtherKey="id_ekspozycji" Type="Ekspozycja" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Sala" Member="Salas">
+    <Type Name="Sala">
+      <Column Name="id_sali" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_lokalizacji" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_sali" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="opis_sali" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Association Name="Sala_Prezentacje" Member="Prezentacjes" ThisKey="id_sali" OtherKey="id_sali" Type="Prezentacje" />
+      <Association Name="Lokalizacja_Sala" Member="Lokalizacja" ThisKey="id_lokalizacji" OtherKey="id_lokalizacji" Type="Lokalizacja" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Sprzedaz" Member="Sprzedazs">
+    <Type Name="Sprzedaz">
+      <Column Name="id_sprzedazy" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_ekspozycji" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_biletu" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Bilet_Sprzedaz" Member="Bilet" ThisKey="id_biletu" OtherKey="id_biletu" Type="Bilet" IsForeignKey="true" />
+      <Association Name="Ekspozycja_Sprzedaz" Member="Ekspozycja" ThisKey="id_ekspozycji" OtherKey="id_ekspozycji" Type="Ekspozycja" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.AddPresentation" Method="AddPresentation">
+    <Parameter Name="data_rozpoczecia" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="data_zakonczenia" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="nazwa_eksponatu" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="nazwa_ekspozycji" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="nazwa_sali" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="id_prezentacji" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>

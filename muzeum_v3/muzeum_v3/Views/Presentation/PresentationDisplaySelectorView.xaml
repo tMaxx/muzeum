@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="muzeum_v3.Views.Presentation.PresentationDisplaySelectorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vw="clr-namespace:muzeum_v3.Views.Presentation"        
+    xmlns:vm="clr-namespace:muzeum_v3.ViewModels.Presentation"
+    xmlns:foundation="clr-namespace:MvvmFoundation.Wpf">
+
+    <UserControl.DataContext>
+        <vm:PresentationSelector />
+    </UserControl.DataContext>
+    <Grid>
+        <ListView Grid.Row="0" ItemsSource="{Binding DataItems}"
+                SelectedItem="{Binding SelectedPresentation}"
+                foundation:CommandBehavior.RoutedEventName="SelectionChanged"
+                foundation:CommandBehavior.TheCommandToRun="{Binding Path=ListBoxCommand}">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn  Width="100"
+                    DisplayMemberBinding="{Binding PresentedExhibit}"
+                    Header="Eksponat"/>
+                        <GridViewColumn   Width="100"  
+                    DisplayMemberBinding="{Binding Exposition}"
+                    Header="Ekspozycja"/>
+                        <GridViewColumn Width="100"
+                    DisplayMemberBinding="{Binding Hall}"
+                    Header="Sala"/>
+                        <GridViewColumn Width="100"
+                    DisplayMemberBinding="{Binding Location}"
+                    Header="Lokacja"/>
+                        <GridViewColumn Width="150"
+                    DisplayMemberBinding="{Binding DateOfBegin}"
+                    Header="Rozpoczecie"/>
+                        <GridViewColumn Width="150"
+                    DisplayMemberBinding="{Binding DateOfEnd}"
+                    Header="Zakonczenie"/>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>
