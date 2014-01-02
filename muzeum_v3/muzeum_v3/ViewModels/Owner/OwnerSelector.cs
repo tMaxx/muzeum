@@ -21,8 +21,20 @@ namespace muzeum_v3.ViewModels.Owner
             App.Messenger.Register("GetOwners", (Action)(() => GetOwners()));
             App.Messenger.Register("UpdateOwner", (Action<Owner>)(param => UpdateOwner(param)));
             App.Messenger.Register("AddOwner", (Action<Owner>)(param => AddOwner(param)));
+            
+            App.Messenger.Register("UseSuperQueryOwner", (Action<OwnerParameters>)(param => UseSuperQueryOwner(param)));
         }
 
+        private void UseSuperQueryOwner(OwnerParameters e)
+        {
+            if (e != null)
+            {
+                DataItems = App.OwnerQuery.SuperQuery(e.OwnerNameParameter, e.City, e.Country);
+                if (App.OwnerQuery.hasError)
+                    App.Messenger.NotifyColleagues("SetStatus", App.OwnerQuery.errorMessage);
+            }
+
+        }
  		private void AddOwner(Owner e)
         {
             dataItems.Add(e);

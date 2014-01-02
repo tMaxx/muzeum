@@ -8,6 +8,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using muzeum_v3.Models;
 using muzeum_v3.ViewModels.Exposition;
+using System.Data.Linq.SqlClient;
+
 
 namespace muzeum_v3.Models
 {
@@ -15,6 +17,88 @@ namespace muzeum_v3.Models
     {
         public bool hasError = false;
         public string errorMessage;
+
+        public MyObservableCollection<Exposition> SuperQuery(string expositionName, string org, string location,
+            int numberOfTicketsFROM, int numberOfTicketsTO, decimal profitFROM, decimal profitTO)
+        {
+            hasError = false;
+            MyObservableCollection<Exposition> expositions_ObservableCollection = new MyObservableCollection<Exposition>();
+            List<SqlExposition> expositions_List = new List<SqlExposition>();
+
+            LinqDataContext connection = new LinqDataContext();
+            connection.Connection.Open();
+            List<int> sale = new List<int>();
+            try
+            {
+                sale = (from s in connection.Sprzedazs
+                        group s by s.id_ekspozycji into g
+                        where
+                        (g.Count() >= numberOfTicketsFROM && g.Count() <= numberOfTicketsTO)
+                        && (g.Sum(x => x.Bilet.cena_biletu) >= profitFROM && (g.Sum(x => x.Bilet.cena_biletu) <= profitTO))
+                        select new
+                        {
+                            idExp = g.Key,
+                        }.idExp).ToList();
+
+
+                expositions_List =
+                    (from e in connection.Ekspozycjas
+                     where SqlMethods.Like(e.nazwa_ekspozycji, "%" + expositionName + "%")
+                        && SqlMethods.Like(e.Organizator.nazwa_organizatora, "%" + org + "%")
+                        && SqlMethods.Like(e.Lokalizacja.nazwa_lokalizacji, "%" + location + "%")
+                     select new SqlExposition(
+                     e.id_ekspozycji,
+                     e.nazwa_ekspozycji,
+                     e.Organizator.nazwa_organizatora,
+                     e.Lokalizacja.nazwa_lokalizacji,
+                     e.opis_ekspozycji,
+                     (from S in connection.Sprzedazs
+                      where
+                        e.id_ekspozycji == S.id_ekspozycji
+                      select new
+                      {
+                          S
+                      }).Count(),
+
+                       (from S in connection.Sprzedazs
+                        where
+                          S.id_ekspozycji == e.id_ekspozycji
+                        select new
+                        {
+                            cena_biletu = (decimal)S.Bilet.cena_biletu
+                        }).Sum(p => p.cena_biletu))
+                         ).ToList();
+                
+            }
+            catch (SqlException ex)
+            {
+                errorMessage = "SuperQuery SQL error, " + ex.Message;
+                hasError = true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "SuperQuery error, " + ex.Message;
+                hasError = true;
+            }
+            finally
+            {
+                connection.Connection.Close();
+            }
+
+            foreach (SqlExposition e in expositions_List)
+            {
+                foreach (int d in sale)
+                {
+                    if (d == e.ExpositionId)
+                    {
+                        expositions_ObservableCollection.Add(e.SqlExposition2Exposition());
+                        break;
+                    }
+                }
+            }
+
+            return expositions_ObservableCollection;
+        }
 
         public MyObservableCollection<Exposition> GetExpositions()
         {
@@ -165,6 +249,122 @@ namespace muzeum_v3.Models
                 DataBaseManager.Instance.closeConnetion();
             }
             return !hasError;
+        }
+
+        internal MyObservableCollection<Exposition> GetExpositionsForOrg(int p)
+        {
+            hasError = false;
+            MyObservableCollection<Exposition> expositions = new MyObservableCollection<Exposition>();
+            try
+            {
+                string queryString =
+                "SELECT " +
+                "E.id_ekspozycji, " +
+                "E.nazwa_ekspozycji, " +
+                "O.nazwa_organizatora, " +
+                "L.nazwa_lokalizacji, " +
+                "E.opis_ekspozycji, " +
+                "(SELECT COUNT(*) FROM Sprzedaz S WHERE E.id_ekspozycji= id_ekspozycji) as sprzedane_bilety, " +
+                "(SELECT ISNULL(SUM(B.cena_biletu),0) FROM Sprzedaz S " +
+                "Join dbo.Bilet As B ON S.id_biletu = B.id_biletu " +
+                "Where S.id_ekspozycji = E.id_ekspozycji) AS zysk " +
+                "From dbo.Ekspozycja AS E " +
+                "JOIN dbo.Lokalizacja AS L " +
+                    "ON E.id_lokalizacji = L.id_lokalizacji " +
+                "JOIN dbo.Organizator AS O " +
+                    "ON E.id_organizatora = O.id_organizatora where O.id_organizatora = @p";
+                DataBaseManager.Instance.openConnetion();
+                SqlCommand cmd = new SqlCommand(queryString, DataBaseManager.Instance.Connection);
+                cmd.Parameters.AddWithValue("@p", p);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    SqlExposition sqlExposition = new SqlExposition(
+                         (int)reader["id_ekspozycji"],
+                         (string)reader["nazwa_ekspozycji"],
+                         (string)reader["nazwa_organizatora"],
+                         (string)reader["nazwa_lokalizacji"],
+                         (string)reader["opis_ekspozycji"],
+                         (int)reader["sprzedane_bilety"],
+                         (decimal)reader["zysk"]);
+                    expositions.Add(sqlExposition.SqlExposition2Exposition());
+                }
+            }
+            catch (SqlException ex)
+            {
+                errorMessage = "GetExpositions SQL error, " + ex.Message;
+                hasError = true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "GetExpositions error, " + ex.Message;
+                hasError = true;
+            }
+            finally
+            {
+                DataBaseManager.Instance.closeConnetion();
+            }
+            return expositions;
+        }
+
+        internal MyObservableCollection<Exposition> GetExpositionsForLocation(int p)
+        {
+            hasError = false;
+            MyObservableCollection<Exposition> expositions = new MyObservableCollection<Exposition>();
+            try
+            {
+                string queryString =
+                "SELECT " +
+                "E.id_ekspozycji, " +
+                "E.nazwa_ekspozycji, " +
+                "O.nazwa_organizatora, " +
+                "L.nazwa_lokalizacji, " +
+                "E.opis_ekspozycji, " +
+                "(SELECT COUNT(*) FROM Sprzedaz S WHERE E.id_ekspozycji= id_ekspozycji) as sprzedane_bilety, " +
+                "(SELECT ISNULL(SUM(B.cena_biletu),0) FROM Sprzedaz S " +
+                "Join dbo.Bilet As B ON S.id_biletu = B.id_biletu " +
+                "Where S.id_ekspozycji = E.id_ekspozycji) AS zysk " +
+                "From dbo.Ekspozycja AS E " +
+                "JOIN dbo.Organizator AS O " +
+                    "ON E.id_organizatora = O.id_organizatora " +
+                "JOIN dbo.Lokalizacja AS L " +
+                    "ON E.id_lokalizacji = L.id_lokalizacji where  L.id_lokalizacji = @p";
+                DataBaseManager.Instance.openConnetion();
+                SqlCommand cmd = new SqlCommand(queryString, DataBaseManager.Instance.Connection);
+                cmd.Parameters.AddWithValue("@p", p);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    SqlExposition sqlExposition = new SqlExposition(
+                         (int)reader["id_ekspozycji"],
+                         (string)reader["nazwa_ekspozycji"],
+                         (string)reader["nazwa_organizatora"],
+                         (string)reader["nazwa_lokalizacji"],
+                         (string)reader["opis_ekspozycji"],
+                         (int)reader["sprzedane_bilety"],
+                         (decimal)reader["zysk"]);
+                    expositions.Add(sqlExposition.SqlExposition2Exposition());
+                }
+            }
+            catch (SqlException ex)
+            {
+                errorMessage = "GetExpositions SQL error, " + ex.Message;
+                hasError = true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "GetExpositions error, " + ex.Message;
+                hasError = true;
+            }
+            finally
+            {
+                DataBaseManager.Instance.closeConnetion();
+            }
+            return expositions;
         }
     }
 }

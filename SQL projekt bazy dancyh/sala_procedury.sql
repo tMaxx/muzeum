@@ -1,13 +1,13 @@
-USE muzeum_v4
+USE muzeum 
 GO
 
 CREATE PROCEDURE [dbo].[GetHalls]
 AS
 BEGIN
-    SELECT id_sali, nazwa_lokalizacji, nazwa_sali, opis_sali
+    SELECT S.id_sali, L.nazwa_lokalizacji, S.nazwa_sali, S.opis_sali
     From dbo.Sala As S
 	Join dbo.Lokalizacja as L 
-		On S.id_sali = L.id_lokalizacji
+		On S.id_lokalizacji = L.id_lokalizacji
 END
 GO
 

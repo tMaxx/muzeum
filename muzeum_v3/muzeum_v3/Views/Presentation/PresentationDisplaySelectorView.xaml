@@ -4,7 +4,7 @@
     xmlns:vw="clr-namespace:muzeum_v3.Views.Presentation"        
     xmlns:vm="clr-namespace:muzeum_v3.ViewModels.Presentation"
     xmlns:foundation="clr-namespace:MvvmFoundation.Wpf">
-
+   
     <UserControl.DataContext>
         <vm:PresentationSelector />
     </UserControl.DataContext>

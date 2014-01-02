@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using muzeum_v3.Views.Presentation;
 namespace muzeum_v3
 {
     /// <summary>
@@ -34,6 +34,7 @@ namespace muzeum_v3
             App.Messenger.NotifyColleagues("GetExhibits");
             App.Messenger.NotifyColleagues("Clear");
         }
+
 
         private void AuthorDisplaySelectorView_Loaded_1(object sender, RoutedEventArgs e)
         {
@@ -74,6 +75,17 @@ namespace muzeum_v3
         private void ExhibitList_Loaded_1(object sender, RoutedEventArgs e)
         {
             App.Messenger.NotifyColleagues("ClearList");
+        }
+
+        private void ExpositionList_Loaded_1(object sender, RoutedEventArgs e)
+        {
+            App.Messenger.NotifyColleagues("ClearList");
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Window window = new UpdatePres();
+            window.Show();
         }
 
     }

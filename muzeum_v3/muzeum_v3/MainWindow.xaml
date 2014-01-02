@@ -9,54 +9,79 @@
     <TabControl HorizontalAlignment="Left" Height="714" Margin="6,3,0,0" VerticalAlignment="Top" Width="720">
         <TabItem Header="Eksponaty" >
             <Grid Background="#FFE5E5E5" Height="684" VerticalAlignment="Top" Margin="0,0,0,-188">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="31*"/>
+                    <ColumnDefinition Width="40*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="470*"/>
                     <RowDefinition Height="193*"/>
                 </Grid.RowDefinitions>
-                <vw:ExhibitDisplaySelectorView HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top" Height="450" Width="170"  />
-                <vw:ExhibitDisplayView HorizontalAlignment="Left" Margin="205,0,-103,0" VerticalAlignment="Top" Width="608" Height="445"/>
-                <Presentation:PresentationDisplaySelectorView HorizontalAlignment="Left" Margin="9,463,0,0" VerticalAlignment="Top" Grid.RowSpan="2" Width="689" Height="198"/>
+                <vw:ExhibitDisplaySelectorView HorizontalAlignment="Left" Margin="3,60,0,0" VerticalAlignment="Top" Height="394" Width="170"  />
+                <vw:ExhibitDisplayView HorizontalAlignment="Left" Margin="205,60,-103,0" VerticalAlignment="Top" Width="608" Height="385" Grid.ColumnSpan="2"/>
+                <Presentation:PresentationDisplaySelectorView HorizontalAlignment="Left" Margin="9,3,0,0" VerticalAlignment="Top" Width="689" Height="173" Grid.ColumnSpan="2" Grid.Row="1"/>
+                <vw:SearchExhibitView Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
+                <Button Content="Aktualizuj" Background="Black" HorizontalAlignment="Left" Margin="14,446,0,0" VerticalAlignment="Top" Width="72" Height="36" Click="Button_Click_1"/>
             </Grid>
         </TabItem>
         <TabItem Header="Autorzy">
-            <Grid Background="#FFE5E5E5" Margin="0,0,0,-1">
+            <Grid Background="#FFE5E5E5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="470*"/>
                     <RowDefinition Height="193*"/>
                 </Grid.RowDefinitions>
-                <Author:AuthorDisplaySelectorView HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top" Height="675" Width="170" Grid.RowSpan="2" Loaded="AuthorDisplaySelectorView_Loaded_1"/>
-                <Author:AuthorDisplayView HorizontalAlignment="Left" Margin="205,0,0,0" VerticalAlignment="Top" Width="480" Height="445"/>
+                <Author:AuthorDisplaySelectorView HorizontalAlignment="Left" Margin="3,190,0,0" VerticalAlignment="Top" Height="489" Width="170" Grid.RowSpan="2" Loaded="AuthorDisplaySelectorView_Loaded_1"/>
+                <Author:AuthorDisplayView HorizontalAlignment="Left" Margin="205,190,0,0" VerticalAlignment="Top" Width="480" Height="255"/>
+                <vw:ExhibitList HorizontalAlignment="Left" Margin="270,475,0,0" VerticalAlignment="Top" Height="200" Width="310" Loaded="ExhibitList_Loaded_1" Grid.RowSpan="2"/>
+                <Author:AuthorSearchView HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
             </Grid>
         </TabItem>
         <TabItem Header="Właściciele">
             <Grid Background="#FFE5E5E5">
-                <Owner:OwnerDisplayView HorizontalAlignment="Left" Margin="205,0,0,0" VerticalAlignment="Top" Width="480" Height="445"/>
-                <Owner:OwnerDisplaySelectorView HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top" Height="675" Width="170" Loaded="OwnerDisplaySelectorView_Loaded_1"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="89*"/>
+                    <ColumnDefinition Width="621*"/>
+                </Grid.ColumnDefinitions>
+                <Owner:OwnerDisplayView HorizontalAlignment="Left" Margin="116,60,0,0" VerticalAlignment="Top" Width="480" Height="385" Grid.Column="1"/>
+                <Owner:OwnerDisplaySelectorView HorizontalAlignment="Left" Margin="3,60,0,0" VerticalAlignment="Top" Height="619" Width="170" Loaded="OwnerDisplaySelectorView_Loaded_1" Grid.ColumnSpan="2"/>
+                <vw:ExhibitList HorizontalAlignment="Left" Margin="181,475,0,0" VerticalAlignment="Top" Height="200" Width="310" Loaded="ExhibitList_Loaded_1" Grid.Column="1"/>
+                <Owner:SearchOwnerView Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
             </Grid>
         </TabItem>
         <TabItem Header="Ekspozycje">
             <Grid Background="#FFE5E5E5">
-                <Exposition:ExpositionDisplaySelectorView HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top" Height="675" Width="170" Loaded="ExpositionDisplaySelectorView_Loaded_1"/>
-                <Exposition:ExpositionDisplayView HorizontalAlignment="Left" Margin="205,0,0,0" VerticalAlignment="Top" Width="480" Height="445"/>
-                <vw:ExhibitList HorizontalAlignment="Left" Margin="270,467,0,0" VerticalAlignment="Top" Height="200" Width="309" Loaded="ExhibitList_Loaded_1"/>
+                <Exposition:ExpositionDisplaySelectorView HorizontalAlignment="Left" Margin="3,190,0,0" VerticalAlignment="Top" Height="489" Width="170" Loaded="ExpositionDisplaySelectorView_Loaded_1"/>
+                <Exposition:ExpositionDisplayView HorizontalAlignment="Left" Margin="205,189,0,0" VerticalAlignment="Top" Width="480" Height="373"/>
+                <vw:ExhibitList HorizontalAlignment="Left" Margin="270,568,0,0" VerticalAlignment="Top" Height="107" Width="310" Loaded="ExhibitList_Loaded_1"/>
+                <Exposition:ExpositionSearchView HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
             </Grid>
         </TabItem>
         <TabItem Header="Organizatorzy">
             <Grid Background="#FFE5E5E5">
-                <Org:OrgDisplaySelectorView HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top" Height="675" Width="170" Loaded="OrgDisplaySelectorView_Loaded_1"/>
-                <Org:OrgDisplayView HorizontalAlignment="Left" Height="429" Margin="205,0,0,0" VerticalAlignment="Top" Width="492"/>
-            </Grid>
+                <Org:OrgDisplaySelectorView HorizontalAlignment="Left" Margin="3,60,0,0" VerticalAlignment="Top" Height="619" Width="170" Loaded="OrgDisplaySelectorView_Loaded_1"/>
+                <Org:OrgDisplayView HorizontalAlignment="Left" Height="369" Margin="205,60,0,0" VerticalAlignment="Top" Width="492"/>
+                <Exposition:ExpositionList HorizontalAlignment="Left" Margin="270,475,0,0" VerticalAlignment="Top" Height="200" Width="310" Loaded="ExpositionList_Loaded_1"/>
+                <Org:SearchOrgView Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
+             </Grid>
         </TabItem>
         <TabItem Header="Lokalizacje" Height="23" VerticalAlignment="Bottom">
             <Grid Background="#FFE5E5E5">
-                <Location:LocationDisplaySelectorView HorizontalAlignment="Left" Margin="3,4,0,0" VerticalAlignment="Top" Height="675" Width="170" Loaded="LocationDisplaySelectorView_Loaded_1"/>
-                <Location:LocationDisplayView HorizontalAlignment="Left" Margin="205,0,0,0" VerticalAlignment="Top" Width="480" Height="445"/>
+                <Location:LocationDisplaySelectorView HorizontalAlignment="Left" Margin="3,60,0,0" VerticalAlignment="Top" Height="619" Width="170" Loaded="LocationDisplaySelectorView_Loaded_1"/>
+                <Location:LocationDisplayView HorizontalAlignment="Left" Margin="205,60,0,0" VerticalAlignment="Top" Width="480" Height="385"/>
+                <Exposition:ExpositionList HorizontalAlignment="Left" Margin="270,475,0,0" VerticalAlignment="Top" Height="200" Width="310" Loaded="ExpositionList_Loaded_1"/>
+                <Location:SearchLocationView Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
             </Grid>
         </TabItem>
         <TabItem Header="Sale">
             <Grid Background="#FFE5E5E5">
-                <Hall:HallDisplaySelectorView HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="675" Width="170" Loaded="HallDisplaySelectorView_Loaded_1"/>
-                <Hall:HallDisplayView HorizontalAlignment="Left" Margin="205,0,0,0" VerticalAlignment="Top" Height="455" Width="470"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="393*"/>
+                    <ColumnDefinition Width="317*"/>
+                </Grid.ColumnDefinitions>
+                <Hall:HallDisplaySelectorView HorizontalAlignment="Left" Margin="0,60,0,0" VerticalAlignment="Top" Height="615" Width="170" Loaded="HallDisplaySelectorView_Loaded_1"/>
+                <Hall:HallDisplayView HorizontalAlignment="Left" Margin="205,60,0,0" VerticalAlignment="Top" Height="395" Width="470" Grid.ColumnSpan="2"/>
+                <vw:ExhibitList HorizontalAlignment="Left" Margin="270,475,0,0" VerticalAlignment="Top" Height="200" Width="310" Loaded="ExhibitList_Loaded_1" Grid.ColumnSpan="2"/>
+                <Hall:SearchHallView Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
             </Grid>
         </TabItem>
     </TabControl>

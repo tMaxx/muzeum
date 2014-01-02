@@ -18,6 +18,7 @@ namespace muzeum_v3.ViewModels.Ticket
             DataItems = App.SaleQuery.GetTickets();
             listBoxCommand = new RelayCommand(() => SelectionHasChanged());
             App.Messenger.Register("GetTickets", (Action)(() => GetTickets()));
+            App.Messenger.Register("UpdateSaleForExposition", (Action)(() => GetTickets()));
         }
 
         private void GetTickets()
@@ -38,7 +39,6 @@ namespace muzeum_v3.ViewModels.Ticket
         public MyObservableCollection<Ticket> DataItems
         {
             get { return dataItems; }
-            //If dataItems replaced by new collection, WPF must be told
             set { dataItems = value; OnPropertyChanged(new PropertyChangedEventArgs("DataItems")); }
         }
 
@@ -61,7 +61,6 @@ namespace muzeum_v3.ViewModels.Ticket
             messenger.NotifyColleagues("TicketSelectionChanged", selectedTicket);
         }
     }
-
 
     public class MyObservableCollection<Ticket> : ObservableCollection<Ticket>
     {

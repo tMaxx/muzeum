@@ -24,6 +24,18 @@ namespace muzeum_v3.ViewModels.Hall
             App.Messenger.Register("AddHall", (Action<Hall>)(param => AddHall(param)));
             App.Messenger.Register("ExpositionSelectionChanged", (Action<Exposition.Exposition>)(param => GetHallsInLocation(param)));
 
+            App.Messenger.Register("UseSuperQueryHall", (Action<HallParameters>)(param => UseSuperQueryHall(param)));    
+
+        }
+
+        private void UseSuperQueryHall(HallParameters e)
+        {
+            if (e != null)
+            {
+                DataItems = App.HallQuery.SuperQuery(e.HallNameParameter, e.LocationParameter);
+                if (App.HallQuery.hasError)
+                    App.Messenger.NotifyColleagues("SetStatus", App.HallQuery.errorMessage);
+            }
         }
 
         private void GetHallsInLocation(Exposition.Exposition e)

@@ -22,7 +22,7 @@ namespace muzeum_v3.Models
             hasError = false;
 
             MyObservableCollection<Presentation> presentations_ObservableCollection = new MyObservableCollection<Presentation>();
-            List<Presentation> presentations_List = new List<Presentation>();
+            List<SqlPresentation> presentations_List = new List<SqlPresentation>();
 
             LinqDataContext connection = new LinqDataContext();
             connection.Connection.Open();
@@ -32,7 +32,7 @@ namespace muzeum_v3.Models
                 presentations_List = (from p in connection.Prezentacjes
                                       where p.id_eksponatu == exhibitId
                                       select
-                                      new Presentation(
+                                      new SqlPresentation(
                                           p.id_prezentacji,
                                           p.data_rozpoczecia,
                                           p.data_zakonczenia,
@@ -57,9 +57,9 @@ namespace muzeum_v3.Models
                 connection.Connection.Close();
             }
 
-            foreach (Presentation p in presentations_List)
+            foreach (SqlPresentation p in presentations_List)
             {
-                presentations_ObservableCollection.Add(p);
+                presentations_ObservableCollection.Add(p.SqlPresentation2Presentation());
             }
 
             return presentations_ObservableCollection;
@@ -78,25 +78,25 @@ namespace muzeum_v3.Models
             connection.Transaction = transaction;
             try
             {
-
                 var presentation = (from p in connection.Prezentacjes
                                     where p.id_prezentacji == displayP.PresentationId
-                                    select p).FirstOrDefault();
+                                    select p);
+                var item = presentation.Single();
 
-                presentation.id_eksponatu = (from e in connection.Eksponats
+                item.id_eksponatu = (from e in connection.Eksponats
                                              where e.nazwa_eksponatu == displayP.PresentedExhibit
                                              select e.id_eksponatu).SingleOrDefault();
 
-                presentation.id_ekspozycji = (from e in connection.Ekspozycjas
+                item.id_ekspozycji = (from e in connection.Ekspozycjas
                                               where e.nazwa_ekspozycji == displayP.Exposition
                                               select e.id_ekspozycji).SingleOrDefault();
 
-                presentation.id_sali = (from e in connection.Salas
+                item.id_sali = (from e in connection.Salas
                                         where e.nazwa_sali == displayP.Hall
                                         select e.id_sali).SingleOrDefault();
 
-                presentation.data_rozpoczecia = Convert.ToDateTime(displayP.DateOfBegin);
-                presentation.data_zakonczenia = Convert.ToDateTime(displayP.DateOfEnd);
+                item.data_rozpoczecia = Convert.ToDateTime(displayP.DateOfBegin);
+                item.data_zakonczenia = Convert.ToDateTime(displayP.DateOfEnd);
 
 
                 connection.SubmitChanges();
@@ -105,6 +105,8 @@ namespace muzeum_v3.Models
             }
             catch (SqlException ex)
             {
+                if (transaction != null)
+                    transaction.Rollback();
                 errorMessage = "Update SQL error, " + ex.Message;
                 hasError = true;
             }

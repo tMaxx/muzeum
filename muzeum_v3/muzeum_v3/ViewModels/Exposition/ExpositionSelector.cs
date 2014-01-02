@@ -15,13 +15,59 @@ namespace muzeum_v3.ViewModels.Exposition
         {
             dataItems = new MyObservableCollection<Exposition>();
             DataItems = App.ExpositionQuery.GetExpositions();
+
+            dataItemsForSearch = new MyObservableCollection<Exposition>();
+
             listBoxCommand = new RelayCommand(() => SelectionHasChanged());
+
+            App.Messenger.Register("UpdateSaleForExposition", (Action)(() =>  GetExpositions()));
+            App.Messenger.Register("LocationSelectionChanged", (Action<Location.Location>)(param => GetExpositionsForLocation(param)));
+            App.Messenger.Register("OrgSelectionChanged", (Action<Org.Org>)(param => GetExpositionsForOrg(param)));           
             App.Messenger.Register("ExpositionCleared", (Action)(() => SelectedExposition = null));
             App.Messenger.Register("GetExpositions", (Action)(() => GetExpositions()));
             App.Messenger.Register("UpdateExposition", (Action<Exposition>)(param => UpdateExposition(param)));
             App.Messenger.Register("DeleteExposition", (Action)(() => DeleteExposition()));
             App.Messenger.Register("AddExposition", (Action<Exposition>)(param => AddExposition(param)));
+            App.Messenger.Register("ClearList", (Action)(() => dataItemsForSearch.Clear()));
+        
+            App.Messenger.Register("UseSuperQueryExposition", (Action<ExpositionParameters>)(param => UseSuperQueryExposition(param)));    
         }
+
+        private void UseSuperQueryExposition(ExpositionParameters e)
+        {
+            if (e != null)
+            {
+                DataItems = App.ExpositionQuery.SuperQuery(e.ExpositionNameParameter,e.Org,e.Location,e.NumberOfTicketsFROM,e.NumberOfTicketsTO,e.ProfitFROM,e.ProfitTO);
+                if (App.ExpositionQuery.hasError)
+                    App.Messenger.NotifyColleagues("SetStatus", App.ExpositionQuery.errorMessage);
+            }
+
+        }
+
+        
+
+        private void GetExpositionsForOrg(Org.Org e)
+        {
+            if (e != null)
+            {
+                DataItemsForSearch = App.ExpositionQuery.GetExpositionsForOrg(e.OrgId);
+                if (App.ExpositionQuery.hasError)
+                    App.Messenger.NotifyColleagues("SetStatus", App.ExpositionQuery.errorMessage);
+            }
+
+        }
+
+        private void GetExpositionsForLocation(Location.Location e)
+        {
+            if (e != null)
+            {
+                DataItemsForSearch = App.ExpositionQuery.GetExpositionsForLocation(e.LocationId);
+                if (App.ExpositionQuery.hasError)
+                    App.Messenger.NotifyColleagues("SetStatus", App.ExpositionQuery.errorMessage);
+            }
+
+        }
+
         private void GetExpositions()
         {
             DataItems = App.ExpositionQuery.GetExpositions();
@@ -62,6 +108,14 @@ namespace muzeum_v3.ViewModels.Exposition
             get { return dataItems; }
             //If dataItems replaced by new collection, WPF must be told
             set { dataItems = value; OnPropertyChanged(new PropertyChangedEventArgs("DataItems")); }
+        }
+
+        private MyObservableCollection<Exposition> dataItemsForSearch;
+        public MyObservableCollection<Exposition> DataItemsForSearch
+        {
+            get { return dataItemsForSearch; }
+            //If dataItems replaced by new collection, WPF must be told
+            set { dataItemsForSearch = value; OnPropertyChanged(new PropertyChangedEventArgs("DataItemsForSearch")); }
         }
 
         private Exposition selectedExposition;

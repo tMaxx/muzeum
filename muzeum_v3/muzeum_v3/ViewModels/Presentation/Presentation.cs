@@ -85,7 +85,7 @@ namespace muzeum_v3.ViewModels.Presentation
 
         public Presentation(int presentationId, DateTime dateOfBegin, DateTime dateOfEnd, string presentedExhibit, string exposition, string location, string hall)
         {
-            this.presentationId = PresentationId;
+            this.presentationId = presentationId;
             DateOfBegin = dateOfBegin.ToString();
             DateOfEnd = dateOfEnd.ToString();
             PresentedExhibit = presentedExhibit;
@@ -102,7 +102,7 @@ namespace muzeum_v3.ViewModels.Presentation
 
         public void CopyPresentation(Presentation p)
         {
-            this.presentationId = PresentationId;
+            this.presentationId = p.PresentationId;
             DateOfBegin = p.DateOfBegin;
             DateOfEnd = p.DateOfEnd;
             PresentedExhibit = p.PresentedExhibit;

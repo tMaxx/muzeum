@@ -21,6 +21,20 @@ namespace muzeum_v3.ViewModels.Author
             App.Messenger.Register("GetAuthors", (Action)(() => GetAuthors()));
             App.Messenger.Register("UpdateAuthor", (Action<Author>)(param => UpdateAuthor(param)));
             App.Messenger.Register("AddAuthor", (Action<Author>)(param => AddAuthor(param)));
+            App.Messenger.Register("UseSuperQueryAuthor", (Action<AuthorParameters>)(param => UseSuperQueryAuthor(param)));
+        }
+
+        private void UseSuperQueryAuthor(AuthorParameters e)
+        {
+            if (e != null)
+            {
+                DataItems = App.AuthorQuery.SuperQuery(e.AuthorNameParameter ,Convert.ToDateTime(e.BirthFROM),Convert.ToDateTime(e.BirthTO),Convert.ToDateTime( e.DeathFROM),Convert.ToDateTime(e.DeathTO));
+                if (App.AuthorQuery.hasError)
+                    App.Messenger.NotifyColleagues("SetStatus", App.AuthorQuery.errorMessage);
+                    App.Messenger.NotifyColleagues("Clear");
+
+            }
+
         }
 
         private void AddAuthor(Author e)

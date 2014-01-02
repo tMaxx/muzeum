@@ -8,6 +8,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using muzeum_v3.Models;
 using muzeum_v3.ViewModels.Org;
+using System.Data.Linq.SqlClient;
+
 
 namespace muzeum_v3.Models
 {
@@ -16,6 +18,50 @@ namespace muzeum_v3.Models
         public bool hasError = false;
         public string errorMessage;
 
+        public MyObservableCollection<Org> SuperQuery(string orgName, string city)
+        {
+            hasError = false;
+            MyObservableCollection<Org> orgs_ObservableCollection = new MyObservableCollection<Org>();
+            List<SqlOrg> orgs_List = new List<SqlOrg>();
+
+            LinqDataContext connection = new LinqDataContext();
+            connection.Connection.Open();
+
+            try
+            {
+                orgs_List = (from e in connection.Organizators
+                                 where SqlMethods.Like(e.nazwa_organizatora, "%" + orgName + "%")
+                                 && SqlMethods.Like(e.miasto_organizatora, "%" + city + "%")
+                             select new SqlOrg(
+                                       e.id_organizatora,
+                                       e.nazwa_organizatora,
+                                       e.miasto_organizatora,
+                                       e.e_mail_organizatora,
+                                       e.telefon_organizatora))
+                                       .ToList();
+            }
+            catch (SqlException ex)
+            {
+                errorMessage = "SuperQuery SQL error, " + ex.Message;
+                hasError = true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "SuperQuery error, " + ex.Message;
+                hasError = true;
+            }
+            finally
+            {
+                connection.Connection.Close();
+            }
+
+            foreach (SqlOrg e in orgs_List)
+            {
+                orgs_ObservableCollection.Add(e.SqlOrg2Org());
+            }
+
+            return orgs_ObservableCollection;
+        }
         public MyObservableCollection<Org> GetOrgs()
         {
             hasError = false;

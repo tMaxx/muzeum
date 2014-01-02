@@ -42,7 +42,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <TextBlock Margin="7" Grid.Row="1">Miasto:</TextBlock>
+            <TextBlock Margin="7" Grid.Row="1">Nazwa:</TextBlock>
             <TextBox Margin="5" Grid.Row="1" Grid.Column="1"  BorderBrush="{Binding Path=Stat.OrgName}" BorderThickness="1"
                      Text="{Binding Path=DisplayedOrg.OrgName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             

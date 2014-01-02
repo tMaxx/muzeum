@@ -46,7 +46,7 @@ namespace muzeum_v3.ViewModels.Hall
             isSelected = false;
             stat.clearStatus();
             DisplayedHall = new Hall();
-          //  App.Messenger.NotifyColleagues("GetHalls");
+            App.Messenger.NotifyColleagues("GetHalls");
         }
 
         public ICommand ClearCommand
@@ -97,9 +97,23 @@ namespace muzeum_v3.ViewModels.Hall
         public HallDisplayModel()
         {
             Messenger messenger = App.Messenger;
+            messenger.Register("ChangeLocationName", (Action<String>)(param => ChangeLocationName(param)));
             messenger.Register("HallSelectionChanged", (Action<Hall>)(param => ProcessHall(param)));
             messenger.Register("SetStatus", (Action<String>)(param => stat.Status = param));
             messenger.Register("Clear", (Action)(() => ClearHallDisplay()));
+        }
+
+        public void ChangeLocationName(string str)
+        {
+            if (str != null)
+            {
+                Hall temp = new Hall();
+                temp = DisplayedHall;
+                temp.LocationName = str;
+                DisplayedHall = temp;
+                //  isSelected = true;
+                stat.clearStatus();
+            }
         }
 
         public void ProcessHall(Hall p)

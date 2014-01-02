@@ -1,4 +1,4 @@
-USE muzeum_v4
+USE muzeum 
 GO
 
 CREATE PROCEDURE [dbo].[GetAuthors]

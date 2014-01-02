@@ -81,10 +81,17 @@
     <Compile Include="Models\LinqPresentation.cs" />
     <Compile Include="Models\OrgQuery.cs" />
     <Compile Include="Models\SaleQuery.cs" />
+    <Compile Include="ViewModels\Author\AuthorSearch.cs" />
+    <Compile Include="ViewModels\Exhibit\ExhibitSearch.cs" />
+    <Compile Include="ViewModels\Exposition\ExpositionSearch.cs" />
+    <Compile Include="ViewModels\Hall\HallSearch.cs" />
+    <Compile Include="ViewModels\Location\LocationSearch.cs" />
     <Compile Include="ViewModels\Org\Org.cs" />
     <Compile Include="ViewModels\Org\OrgDisplayModel.cs" />
     <Compile Include="ViewModels\Org\OrgDisplayStatusModel.cs" />
+    <Compile Include="ViewModels\Org\OrgSearch.cs" />
     <Compile Include="ViewModels\Org\OrgSelector.cs" />
+    <Compile Include="ViewModels\Owner\OwnerSearch.cs" />
     <Compile Include="ViewModels\Presentation\Presentation.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -135,6 +142,9 @@
     <Compile Include="Views\Author\AuthorDisplayView.xaml.cs">
       <DependentUpon>AuthorDisplayView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Author\AuthorSearchView.xaml.cs">
+      <DependentUpon>AuthorSearchView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Author\ChooseAuthor.xaml.cs">
       <DependentUpon>ChooseAuthor.xaml</DependentUpon>
     </Compile>
@@ -150,11 +160,20 @@
     <Compile Include="Views\Exhibit\ExhibitList.xaml.cs">
       <DependentUpon>ExhibitList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Exhibit\SearchExhibitView.xaml.cs">
+      <DependentUpon>SearchExhibitView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Exposition\ExpositionDisplaySelectorView.xaml.cs">
       <DependentUpon>ExpositionDisplaySelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Exposition\ExpositionDisplayView.xaml.cs">
       <DependentUpon>ExpositionDisplayView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Exposition\ExpositionList.xaml.cs">
+      <DependentUpon>ExpositionList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Exposition\ExpositionSearchView.xaml.cs">
+      <DependentUpon>ExpositionSearchView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Exposition\ExpositionSelector2.xaml.cs">
       <DependentUpon>ExpositionSelector2.xaml</DependentUpon>
@@ -165,8 +184,11 @@
     <Compile Include="Views\Hall\HallDisplayView.xaml.cs">
       <DependentUpon>HallDisplayView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Hall\HallSelector2.xaml.cs">
-      <DependentUpon>HallSelector2.xaml</DependentUpon>
+    <Compile Include="Views\Hall\HallSelectorComboBox.xaml.cs">
+      <DependentUpon>HallSelectorComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Hall\SearchHallView.xaml.cs">
+      <DependentUpon>SearchHallView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Location\AddLocationWindow.xaml.cs">
       <DependentUpon>AddLocationWindow.xaml</DependentUpon>
@@ -180,6 +202,9 @@
     <Compile Include="Views\Location\LocationDisplayView.xaml.cs">
       <DependentUpon>LocationDisplayView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Location\SearchLocationView.xaml.cs">
+      <DependentUpon>SearchLocationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Org\AddOrgWindow.xaml.cs">
       <DependentUpon>AddOrgWindow.xaml</DependentUpon>
     </Compile>
@@ -191,6 +216,9 @@
     </Compile>
     <Compile Include="Views\Org\OrgDisplayView.xaml.cs">
       <DependentUpon>OrgDisplayView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Org\SearchOrgView.xaml.cs">
+      <DependentUpon>SearchOrgView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Owner\AddOwnerWindow.xaml.cs">
       <DependentUpon>AddOwnerWindow.xaml</DependentUpon>
@@ -204,6 +232,9 @@
     <Compile Include="Views\Owner\OwnerDisplayView.xaml.cs">
       <DependentUpon>OwnerDisplayView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Owner\SearchOwnerView.xaml.cs">
+      <DependentUpon>SearchOwnerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Presentation\PresentationDisplaySelectorView.xaml.cs">
       <DependentUpon>PresentationDisplaySelectorView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -215,6 +246,12 @@
     <Compile Include="Views\Presentation\PresentExhibit.xaml.cs">
       <DependentUpon>PresentExhibit.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\Presentation\UpdatePres.xaml.cs">
+      <DependentUpon>UpdatePres.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Presentation\UpdatePresentationView.xaml.cs">
+      <DependentUpon>UpdatePresentationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Sale\BuySomeTicketsWindow.xaml.cs">
       <DependentUpon>BuySomeTicketsWindow.xaml</DependentUpon>
@@ -259,6 +296,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Author\AuthorSearchView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Author\ChooseAuthor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -279,11 +320,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Exhibit\SearchExhibitView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Exposition\ExpositionDisplaySelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Exposition\ExpositionDisplayView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Exposition\ExpositionList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Exposition\ExpositionSearchView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -299,7 +352,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Hall\HallSelector2.xaml">
+    <Page Include="Views\Hall\HallSelectorComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Hall\SearchHallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -319,6 +376,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Location\SearchLocationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Org\AddOrgWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -332,6 +393,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Org\OrgDisplayView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Org\SearchOrgView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -351,6 +416,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Owner\SearchOwnerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Presentation\PresentationDisplaySelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -360,6 +429,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Presentation\PresentExhibit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Presentation\UpdatePres.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Presentation\UpdatePresentationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -436,6 +513,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="XMLEksponaty.xml">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

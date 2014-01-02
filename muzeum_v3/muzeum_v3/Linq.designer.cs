@@ -22,7 +22,7 @@ namespace muzeum_v3
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="muzeum_v4")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="muzeum")]
 	public partial class LinqDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -66,7 +66,7 @@ namespace muzeum_v3
     #endregion
 		
 		public LinqDataContext() : 
-				base(global::muzeum_v3.Properties.Settings.Default.muzeum_v4ConnectionString, mappingSource)
+				base(global::muzeum_v3.Properties.Settings.Default.muzeumConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -183,11 +183,194 @@ namespace muzeum_v3
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddAuthor")]
+		public int AddAuthor([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_autora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(150)")] string data_urodzenia, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string data_smierci, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string opis_autora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> id_autora)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), nazwa_autora, data_urodzenia, data_smierci, opis_autora, id_autora);
+			id_autora = ((System.Nullable<int>)(result.GetParameterValue(4)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateOwner")]
+		public int UpdateOwner([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id_wlasciciela, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_wlasciciela, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string miasto_wlasciciela, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string kraj_wlasciciela, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string email_wlasciciela, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string telefon_wlasciciela)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id_wlasciciela, nazwa_wlasciciela, miasto_wlasciciela, kraj_wlasciciela, email_wlasciciela, telefon_wlasciciela);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddExhibit")]
+		public int AddExhibit([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_eksponatu, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(150)")] string opis_eksponatu, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string autor_eksponatu, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string wlasciciel_eksponatu, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> id_eksponatu)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), nazwa_eksponatu, opis_eksponatu, autor_eksponatu, wlasciciel_eksponatu, id_eksponatu);
+			id_eksponatu = ((System.Nullable<int>)(result.GetParameterValue(4)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddExposition")]
+		public int AddExposition([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_ekspozycji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(150)")] string nazwa_organizatora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_lokalizacji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string opis_ekspozycji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> id_ekspozycji)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), nazwa_ekspozycji, nazwa_organizatora, nazwa_lokalizacji, opis_ekspozycji, id_ekspozycji);
+			id_ekspozycji = ((System.Nullable<int>)(result.GetParameterValue(4)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddHall")]
+		public int AddHall([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_lokalizacji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_sali, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(150)")] string opis_sali, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> id_sali)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), nazwa_lokalizacji, nazwa_sali, opis_sali, id_sali);
+			id_sali = ((System.Nullable<int>)(result.GetParameterValue(3)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddLocation")]
+		public int AddLocation([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_lokalizacji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(150)")] string opis_lokalizacji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> id_lokalizacji)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), nazwa_lokalizacji, opis_lokalizacji, id_lokalizacji);
+			id_lokalizacji = ((System.Nullable<int>)(result.GetParameterValue(2)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddOrg")]
+		public int AddOrg([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_organizatora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string miasto_organizatora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string telefon_organizatora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string e_mail_organizatora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> id_organizatora)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), nazwa_organizatora, miasto_organizatora, telefon_organizatora, e_mail_organizatora, id_organizatora);
+			id_organizatora = ((System.Nullable<int>)(result.GetParameterValue(4)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddOwner")]
+		public int AddOwner([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_wlasciciela, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string miasto_wlasciciela, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string kraj_wlasciciela, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string email_wlasciciela, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string telefon_wlasciciela, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> id_wlasciciela)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), nazwa_wlasciciela, miasto_wlasciciela, kraj_wlasciciela, email_wlasciciela, telefon_wlasciciela, id_wlasciciela);
+			id_wlasciciela = ((System.Nullable<int>)(result.GetParameterValue(5)));
+			return ((int)(result.ReturnValue));
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddPresentation")]
 		public int AddPresentation([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> data_rozpoczecia, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Date")] System.Nullable<System.DateTime> data_zakonczenia, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string nazwa_eksponatu, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string nazwa_ekspozycji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string nazwa_sali, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> id_prezentacji)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), data_rozpoczecia, data_zakonczenia, nazwa_eksponatu, nazwa_ekspozycji, nazwa_sali, id_prezentacji);
 			id_prezentacji = ((System.Nullable<int>)(result.GetParameterValue(5)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddSale")]
+		public int AddSale([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string nazwa_biletu, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string cena_biletu, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string nazwa_ekspozycji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> id_sprzedazy)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), nazwa_biletu, cena_biletu, nazwa_ekspozycji, id_sprzedazy);
+			id_sprzedazy = ((System.Nullable<int>)(result.GetParameterValue(3)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteExhibit")]
+		public int DeleteExhibit([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id_eksponatu)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id_eksponatu);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteExposition")]
+		public int DeleteExposition([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id_ekspozycji)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id_ekspozycji);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAuthors")]
+		public ISingleResult<GetAuthorsResult> GetAuthors()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetAuthorsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetExhibits")]
+		public ISingleResult<GetExhibitsResult> GetExhibits()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetExhibitsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetExpositions")]
+		public ISingleResult<GetExpositionsResult> GetExpositions()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetExpositionsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetHalls")]
+		public ISingleResult<GetHallsResult> GetHalls()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetHallsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetLocations")]
+		public ISingleResult<GetLocationsResult> GetLocations()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetLocationsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetOrgs")]
+		public ISingleResult<GetOrgsResult> GetOrgs()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetOrgsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetOwners")]
+		public ISingleResult<GetOwnersResult> GetOwners()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetOwnersResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetTickets")]
+		public ISingleResult<GetTicketsResult> GetTickets()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetTicketsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateAuthor")]
+		public int UpdateAuthor([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id_autora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_autora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(150)")] string data_urodzenia, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string data_smierci, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string opis_autora)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id_autora, nazwa_autora, data_urodzenia, data_smierci, opis_autora);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateExhibit")]
+		public int UpdateExhibit([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id_eksponatu, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_eksponatu, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(150)")] string opis_eksponatu, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string autor_eksponatu, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string wlasciciel_eksponatu)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id_eksponatu, nazwa_eksponatu, opis_eksponatu, autor_eksponatu, wlasciciel_eksponatu);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateExposition")]
+		public int UpdateExposition([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id_ekspozycji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_ekspozycji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(150)")] string nazwa_organizatora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_lokalizacji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string opis_ekspozycji)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id_ekspozycji, nazwa_ekspozycji, nazwa_organizatora, nazwa_lokalizacji, opis_ekspozycji);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateHall")]
+		public int UpdateHall([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id_sali, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_lokalizacji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_sali, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(150)")] string opis_sali)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id_sali, nazwa_lokalizacji, nazwa_sali, opis_sali);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateLocation")]
+		public int UpdateLocation([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id_lokalizacji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_lokalizacji, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(150)")] string opis_lokalizacji)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id_lokalizacji, nazwa_lokalizacji, opis_lokalizacji);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateOrg")]
+		public int UpdateOrg([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id_organizatora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string nazwa_organizatora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string miasto_organizatora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string e_mail_organizatora, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string telefon_organizatora)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id_organizatora, nazwa_organizatora, miasto_organizatora, e_mail_organizatora, telefon_organizatora);
 			return ((int)(result.ReturnValue));
 		}
 	}
@@ -2586,6 +2769,754 @@ namespace muzeum_v3
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	public partial class GetAuthorsResult
+	{
+		
+		private int _id_autora;
+		
+		private string _nazwa_autora;
+		
+		private System.Nullable<System.DateTime> _data_urodzenia;
+		
+		private System.Nullable<System.DateTime> _data_smierci;
+		
+		private string _opis_autora;
+		
+		public GetAuthorsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_autora", DbType="Int NOT NULL")]
+		public int id_autora
+		{
+			get
+			{
+				return this._id_autora;
+			}
+			set
+			{
+				if ((this._id_autora != value))
+				{
+					this._id_autora = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_autora", DbType="VarChar(50)")]
+		public string nazwa_autora
+		{
+			get
+			{
+				return this._nazwa_autora;
+			}
+			set
+			{
+				if ((this._nazwa_autora != value))
+				{
+					this._nazwa_autora = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_data_urodzenia", DbType="Date")]
+		public System.Nullable<System.DateTime> data_urodzenia
+		{
+			get
+			{
+				return this._data_urodzenia;
+			}
+			set
+			{
+				if ((this._data_urodzenia != value))
+				{
+					this._data_urodzenia = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_data_smierci", DbType="Date")]
+		public System.Nullable<System.DateTime> data_smierci
+		{
+			get
+			{
+				return this._data_smierci;
+			}
+			set
+			{
+				if ((this._data_smierci != value))
+				{
+					this._data_smierci = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opis_autora", DbType="VarChar(150)")]
+		public string opis_autora
+		{
+			get
+			{
+				return this._opis_autora;
+			}
+			set
+			{
+				if ((this._opis_autora != value))
+				{
+					this._opis_autora = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetExhibitsResult
+	{
+		
+		private int _id_eksponatu;
+		
+		private string _nazwa_eksponatu;
+		
+		private string _opis_eksponatu;
+		
+		private string _nazwa_autora;
+		
+		private string _nazwa_wlasciciela;
+		
+		public GetExhibitsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_eksponatu", DbType="Int NOT NULL")]
+		public int id_eksponatu
+		{
+			get
+			{
+				return this._id_eksponatu;
+			}
+			set
+			{
+				if ((this._id_eksponatu != value))
+				{
+					this._id_eksponatu = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_eksponatu", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string nazwa_eksponatu
+		{
+			get
+			{
+				return this._nazwa_eksponatu;
+			}
+			set
+			{
+				if ((this._nazwa_eksponatu != value))
+				{
+					this._nazwa_eksponatu = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opis_eksponatu", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		public string opis_eksponatu
+		{
+			get
+			{
+				return this._opis_eksponatu;
+			}
+			set
+			{
+				if ((this._opis_eksponatu != value))
+				{
+					this._opis_eksponatu = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_autora", DbType="VarChar(50)")]
+		public string nazwa_autora
+		{
+			get
+			{
+				return this._nazwa_autora;
+			}
+			set
+			{
+				if ((this._nazwa_autora != value))
+				{
+					this._nazwa_autora = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_wlasciciela", DbType="VarChar(50)")]
+		public string nazwa_wlasciciela
+		{
+			get
+			{
+				return this._nazwa_wlasciciela;
+			}
+			set
+			{
+				if ((this._nazwa_wlasciciela != value))
+				{
+					this._nazwa_wlasciciela = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetExpositionsResult
+	{
+		
+		private int _id_ekspozycji;
+		
+		private string _nazwa_ekspozycji;
+		
+		private string _nazwa_organizatora;
+		
+		private string _nazwa_lokalizacji;
+		
+		private string _opis_ekspozycji;
+		
+		private System.Nullable<int> _sprzedane_bilety;
+		
+		private System.Nullable<decimal> _zysk;
+		
+		public GetExpositionsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_ekspozycji", DbType="Int NOT NULL")]
+		public int id_ekspozycji
+		{
+			get
+			{
+				return this._id_ekspozycji;
+			}
+			set
+			{
+				if ((this._id_ekspozycji != value))
+				{
+					this._id_ekspozycji = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_ekspozycji", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string nazwa_ekspozycji
+		{
+			get
+			{
+				return this._nazwa_ekspozycji;
+			}
+			set
+			{
+				if ((this._nazwa_ekspozycji != value))
+				{
+					this._nazwa_ekspozycji = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_organizatora", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string nazwa_organizatora
+		{
+			get
+			{
+				return this._nazwa_organizatora;
+			}
+			set
+			{
+				if ((this._nazwa_organizatora != value))
+				{
+					this._nazwa_organizatora = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_lokalizacji", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string nazwa_lokalizacji
+		{
+			get
+			{
+				return this._nazwa_lokalizacji;
+			}
+			set
+			{
+				if ((this._nazwa_lokalizacji != value))
+				{
+					this._nazwa_lokalizacji = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opis_ekspozycji", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		public string opis_ekspozycji
+		{
+			get
+			{
+				return this._opis_ekspozycji;
+			}
+			set
+			{
+				if ((this._opis_ekspozycji != value))
+				{
+					this._opis_ekspozycji = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sprzedane_bilety", DbType="Int")]
+		public System.Nullable<int> sprzedane_bilety
+		{
+			get
+			{
+				return this._sprzedane_bilety;
+			}
+			set
+			{
+				if ((this._sprzedane_bilety != value))
+				{
+					this._sprzedane_bilety = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_zysk", DbType="Money")]
+		public System.Nullable<decimal> zysk
+		{
+			get
+			{
+				return this._zysk;
+			}
+			set
+			{
+				if ((this._zysk != value))
+				{
+					this._zysk = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetHallsResult
+	{
+		
+		private int _id_sali;
+		
+		private string _nazwa_lokalizacji;
+		
+		private string _nazwa_sali;
+		
+		private string _opis_sali;
+		
+		public GetHallsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_sali", DbType="Int NOT NULL")]
+		public int id_sali
+		{
+			get
+			{
+				return this._id_sali;
+			}
+			set
+			{
+				if ((this._id_sali != value))
+				{
+					this._id_sali = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_lokalizacji", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string nazwa_lokalizacji
+		{
+			get
+			{
+				return this._nazwa_lokalizacji;
+			}
+			set
+			{
+				if ((this._nazwa_lokalizacji != value))
+				{
+					this._nazwa_lokalizacji = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_sali", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string nazwa_sali
+		{
+			get
+			{
+				return this._nazwa_sali;
+			}
+			set
+			{
+				if ((this._nazwa_sali != value))
+				{
+					this._nazwa_sali = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opis_sali", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		public string opis_sali
+		{
+			get
+			{
+				return this._opis_sali;
+			}
+			set
+			{
+				if ((this._opis_sali != value))
+				{
+					this._opis_sali = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetLocationsResult
+	{
+		
+		private int _id_lokalizacji;
+		
+		private string _nazwa_lokalizacji;
+		
+		private string _opis_lokalizacji;
+		
+		public GetLocationsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_lokalizacji", DbType="Int NOT NULL")]
+		public int id_lokalizacji
+		{
+			get
+			{
+				return this._id_lokalizacji;
+			}
+			set
+			{
+				if ((this._id_lokalizacji != value))
+				{
+					this._id_lokalizacji = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_lokalizacji", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string nazwa_lokalizacji
+		{
+			get
+			{
+				return this._nazwa_lokalizacji;
+			}
+			set
+			{
+				if ((this._nazwa_lokalizacji != value))
+				{
+					this._nazwa_lokalizacji = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opis_lokalizacji", DbType="VarChar(150)")]
+		public string opis_lokalizacji
+		{
+			get
+			{
+				return this._opis_lokalizacji;
+			}
+			set
+			{
+				if ((this._opis_lokalizacji != value))
+				{
+					this._opis_lokalizacji = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetOrgsResult
+	{
+		
+		private int _id_organizatora;
+		
+		private string _nazwa_organizatora;
+		
+		private string _miasto_organizatora;
+		
+		private string _e_mail_organizatora;
+		
+		private string _telefon_organizatora;
+		
+		public GetOrgsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_organizatora", DbType="Int NOT NULL")]
+		public int id_organizatora
+		{
+			get
+			{
+				return this._id_organizatora;
+			}
+			set
+			{
+				if ((this._id_organizatora != value))
+				{
+					this._id_organizatora = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_organizatora", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string nazwa_organizatora
+		{
+			get
+			{
+				return this._nazwa_organizatora;
+			}
+			set
+			{
+				if ((this._nazwa_organizatora != value))
+				{
+					this._nazwa_organizatora = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_miasto_organizatora", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string miasto_organizatora
+		{
+			get
+			{
+				return this._miasto_organizatora;
+			}
+			set
+			{
+				if ((this._miasto_organizatora != value))
+				{
+					this._miasto_organizatora = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_e_mail_organizatora", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string e_mail_organizatora
+		{
+			get
+			{
+				return this._e_mail_organizatora;
+			}
+			set
+			{
+				if ((this._e_mail_organizatora != value))
+				{
+					this._e_mail_organizatora = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_telefon_organizatora", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string telefon_organizatora
+		{
+			get
+			{
+				return this._telefon_organizatora;
+			}
+			set
+			{
+				if ((this._telefon_organizatora != value))
+				{
+					this._telefon_organizatora = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetOwnersResult
+	{
+		
+		private int _id_wlasciciela;
+		
+		private string _nazwa_wlasciciela;
+		
+		private string _miasto_wlasciciela;
+		
+		private string _kraj_wlasciciela;
+		
+		private string _email_wlasciciela;
+		
+		private string _telefon_wlasciciela;
+		
+		public GetOwnersResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_wlasciciela", DbType="Int NOT NULL")]
+		public int id_wlasciciela
+		{
+			get
+			{
+				return this._id_wlasciciela;
+			}
+			set
+			{
+				if ((this._id_wlasciciela != value))
+				{
+					this._id_wlasciciela = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_wlasciciela", DbType="VarChar(50)")]
+		public string nazwa_wlasciciela
+		{
+			get
+			{
+				return this._nazwa_wlasciciela;
+			}
+			set
+			{
+				if ((this._nazwa_wlasciciela != value))
+				{
+					this._nazwa_wlasciciela = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_miasto_wlasciciela", DbType="VarChar(50)")]
+		public string miasto_wlasciciela
+		{
+			get
+			{
+				return this._miasto_wlasciciela;
+			}
+			set
+			{
+				if ((this._miasto_wlasciciela != value))
+				{
+					this._miasto_wlasciciela = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_kraj_wlasciciela", DbType="VarChar(50)")]
+		public string kraj_wlasciciela
+		{
+			get
+			{
+				return this._kraj_wlasciciela;
+			}
+			set
+			{
+				if ((this._kraj_wlasciciela != value))
+				{
+					this._kraj_wlasciciela = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email_wlasciciela", DbType="VarChar(50)")]
+		public string email_wlasciciela
+		{
+			get
+			{
+				return this._email_wlasciciela;
+			}
+			set
+			{
+				if ((this._email_wlasciciela != value))
+				{
+					this._email_wlasciciela = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_telefon_wlasciciela", DbType="VarChar(50)")]
+		public string telefon_wlasciciela
+		{
+			get
+			{
+				return this._telefon_wlasciciela;
+			}
+			set
+			{
+				if ((this._telefon_wlasciciela != value))
+				{
+					this._telefon_wlasciciela = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetTicketsResult
+	{
+		
+		private int _id_biletu;
+		
+		private decimal _cena_biletu;
+		
+		private string _nazwa_biletu;
+		
+		public GetTicketsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_biletu", DbType="Int NOT NULL")]
+		public int id_biletu
+		{
+			get
+			{
+				return this._id_biletu;
+			}
+			set
+			{
+				if ((this._id_biletu != value))
+				{
+					this._id_biletu = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cena_biletu", DbType="SmallMoney NOT NULL")]
+		public decimal cena_biletu
+		{
+			get
+			{
+				return this._cena_biletu;
+			}
+			set
+			{
+				if ((this._cena_biletu != value))
+				{
+					this._cena_biletu = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nazwa_biletu", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string nazwa_biletu
+		{
+			get
+			{
+				return this._nazwa_biletu;
+			}
+			set
+			{
+				if ((this._nazwa_biletu != value))
+				{
+					this._nazwa_biletu = value;
+				}
 			}
 		}
 	}

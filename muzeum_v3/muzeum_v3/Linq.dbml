@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="muzeum_v4" Class="LinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=JA-KOMPUTER;Initial Catalog=muzeum_v4;Integrated Security=True" SettingsObjectName="muzeum_v3.Properties.Settings" SettingsPropertyName="muzeum_v4ConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="muzeum" Class="LinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=JA-Komputer;Initial Catalog=muzeum;Integrated Security=True" SettingsObjectName="muzeum_v3.Properties.Settings" SettingsPropertyName="muzeumConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Autor" Member="Autors">
     <Type Name="Autor">
       <Column Name="id_autora" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -116,6 +116,69 @@
       <Association Name="Ekspozycja_Sprzedaz" Member="Ekspozycja" ThisKey="id_ekspozycji" OtherKey="id_ekspozycji" Type="Ekspozycja" IsForeignKey="true" />
     </Type>
   </Table>
+  <Function Name="dbo.AddAuthor" Method="AddAuthor">
+    <Parameter Name="nazwa_autora" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="data_urodzenia" Type="System.String" DbType="NVarChar(150)" />
+    <Parameter Name="data_smierci" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="opis_autora" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="id_autora" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UpdateOwner" Method="UpdateOwner">
+    <Parameter Name="id_wlasciciela" Type="System.Int32" DbType="Int" />
+    <Parameter Name="nazwa_wlasciciela" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="miasto_wlasciciela" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="kraj_wlasciciela" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="email_wlasciciela" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="telefon_wlasciciela" Type="System.String" DbType="NVarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddExhibit" Method="AddExhibit">
+    <Parameter Name="nazwa_eksponatu" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="opis_eksponatu" Type="System.String" DbType="NVarChar(150)" />
+    <Parameter Name="autor_eksponatu" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="wlasciciel_eksponatu" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="id_eksponatu" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddExposition" Method="AddExposition">
+    <Parameter Name="nazwa_ekspozycji" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="nazwa_organizatora" Type="System.String" DbType="NVarChar(150)" />
+    <Parameter Name="nazwa_lokalizacji" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="opis_ekspozycji" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="id_ekspozycji" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddHall" Method="AddHall">
+    <Parameter Name="nazwa_lokalizacji" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="nazwa_sali" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="opis_sali" Type="System.String" DbType="NVarChar(150)" />
+    <Parameter Name="id_sali" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddLocation" Method="AddLocation">
+    <Parameter Name="nazwa_lokalizacji" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="opis_lokalizacji" Type="System.String" DbType="NVarChar(150)" />
+    <Parameter Name="id_lokalizacji" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddOrg" Method="AddOrg">
+    <Parameter Name="nazwa_organizatora" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="miasto_organizatora" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="telefon_organizatora" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="e_mail_organizatora" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="id_organizatora" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddOwner" Method="AddOwner">
+    <Parameter Name="nazwa_wlasciciela" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="miasto_wlasciciela" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="kraj_wlasciciela" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="email_wlasciciela" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="telefon_wlasciciela" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="id_wlasciciela" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
   <Function Name="dbo.AddPresentation" Method="AddPresentation">
     <Parameter Name="data_rozpoczecia" Type="System.DateTime" DbType="Date" />
     <Parameter Name="data_zakonczenia" Type="System.DateTime" DbType="Date" />
@@ -123,6 +186,136 @@
     <Parameter Name="nazwa_ekspozycji" Type="System.String" DbType="VarChar(50)" />
     <Parameter Name="nazwa_sali" Type="System.String" DbType="VarChar(50)" />
     <Parameter Name="id_prezentacji" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddSale" Method="AddSale">
+    <Parameter Name="nazwa_biletu" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="cena_biletu" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="nazwa_ekspozycji" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="id_sprzedazy" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteExhibit" Method="DeleteExhibit">
+    <Parameter Name="id_eksponatu" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteExposition" Method="DeleteExposition">
+    <Parameter Name="id_ekspozycji" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetAuthors" Method="GetAuthors">
+    <ElementType Name="GetAuthorsResult">
+      <Column Name="id_autora" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_autora" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="data_urodzenia" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="data_smierci" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="opis_autora" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetExhibits" Method="GetExhibits">
+    <ElementType Name="GetExhibitsResult">
+      <Column Name="id_eksponatu" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_eksponatu" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="opis_eksponatu" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_autora" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="nazwa_wlasciciela" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetExpositions" Method="GetExpositions">
+    <ElementType Name="GetExpositionsResult">
+      <Column Name="id_ekspozycji" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_ekspozycji" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_organizatora" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_lokalizacji" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="opis_ekspozycji" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="sprzedane_bilety" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="zysk" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetHalls" Method="GetHalls">
+    <ElementType Name="GetHallsResult">
+      <Column Name="id_sali" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_lokalizacji" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_sali" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="opis_sali" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetLocations" Method="GetLocations">
+    <ElementType Name="GetLocationsResult">
+      <Column Name="id_lokalizacji" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_lokalizacji" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="opis_lokalizacji" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetOrgs" Method="GetOrgs">
+    <ElementType Name="GetOrgsResult">
+      <Column Name="id_organizatora" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_organizatora" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="miasto_organizatora" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="e_mail_organizatora" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="telefon_organizatora" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetOwners" Method="GetOwners">
+    <ElementType Name="GetOwnersResult">
+      <Column Name="id_wlasciciela" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_wlasciciela" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="miasto_wlasciciela" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="kraj_wlasciciela" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="email_wlasciciela" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="telefon_wlasciciela" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetTickets" Method="GetTickets">
+    <ElementType Name="GetTicketsResult">
+      <Column Name="id_biletu" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="cena_biletu" Type="System.Decimal" DbType="SmallMoney NOT NULL" CanBeNull="false" />
+      <Column Name="nazwa_biletu" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.UpdateAuthor" Method="UpdateAuthor">
+    <Parameter Name="id_autora" Type="System.Int32" DbType="Int" />
+    <Parameter Name="nazwa_autora" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="data_urodzenia" Type="System.String" DbType="NVarChar(150)" />
+    <Parameter Name="data_smierci" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="opis_autora" Type="System.String" DbType="NVarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UpdateExhibit" Method="UpdateExhibit">
+    <Parameter Name="id_eksponatu" Type="System.Int32" DbType="Int" />
+    <Parameter Name="nazwa_eksponatu" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="opis_eksponatu" Type="System.String" DbType="NVarChar(150)" />
+    <Parameter Name="autor_eksponatu" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="wlasciciel_eksponatu" Type="System.String" DbType="NVarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UpdateExposition" Method="UpdateExposition">
+    <Parameter Name="id_ekspozycji" Type="System.Int32" DbType="Int" />
+    <Parameter Name="nazwa_ekspozycji" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="nazwa_organizatora" Type="System.String" DbType="NVarChar(150)" />
+    <Parameter Name="nazwa_lokalizacji" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="opis_ekspozycji" Type="System.String" DbType="NVarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UpdateHall" Method="UpdateHall">
+    <Parameter Name="id_sali" Type="System.Int32" DbType="Int" />
+    <Parameter Name="nazwa_lokalizacji" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="nazwa_sali" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="opis_sali" Type="System.String" DbType="NVarChar(150)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UpdateLocation" Method="UpdateLocation">
+    <Parameter Name="id_lokalizacji" Type="System.Int32" DbType="Int" />
+    <Parameter Name="nazwa_lokalizacji" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="opis_lokalizacji" Type="System.String" DbType="NVarChar(150)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UpdateOrg" Method="UpdateOrg">
+    <Parameter Name="id_organizatora" Type="System.Int32" DbType="Int" />
+    <Parameter Name="nazwa_organizatora" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="miasto_organizatora" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="e_mail_organizatora" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="telefon_organizatora" Type="System.String" DbType="NVarChar(50)" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

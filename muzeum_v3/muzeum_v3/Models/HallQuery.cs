@@ -7,6 +7,8 @@ using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using muzeum_v3.ViewModels.Hall ;
+using System.Data.Linq.SqlClient;
+
 namespace muzeum_v3.Models
 {
     public class HallQuery
@@ -14,19 +16,63 @@ namespace muzeum_v3.Models
         public bool hasError = false;
         public string errorMessage;
 
+
+        public MyObservableCollection<Hall> SuperQuery(string HallName, string locationName)
+        {
+            hasError = false;
+            MyObservableCollection<Hall> halls_ObservableCollection = new MyObservableCollection<Hall>();
+            List<SqlHall> halls_List = new List<SqlHall>();
+
+            LinqDataContext connection = new LinqDataContext();
+            connection.Connection.Open();
+
+            try
+            {
+                halls_List = (from e in connection.Salas
+                                 where SqlMethods.Like(e.nazwa_sali, "%" + HallName + "%")
+                                 && SqlMethods.Like(e.Lokalizacja.nazwa_lokalizacji, "%" + locationName + "%")
+                              select new SqlHall(
+                                       e.id_sali,
+                                       e.Lokalizacja.nazwa_lokalizacji,
+                                       e.nazwa_sali,
+                                       e.opis_sali)).ToList();
+            }
+            catch (SqlException ex)
+            {
+                errorMessage = "SuperQuery SQL error, " + ex.Message;
+                hasError = true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "SuperQuery error, " + ex.Message;
+                hasError = true;
+            }
+            finally
+            {
+                connection.Connection.Close();
+            }
+
+            foreach (SqlHall e in halls_List)
+            {
+                halls_ObservableCollection.Add(e.SqlHall2Hall());
+            }
+
+            return halls_ObservableCollection;
+        }
+
         public MyObservableCollection<Hall> GetHalls()
         {
             hasError = false;
             MyObservableCollection<Hall> halls = new MyObservableCollection<Hall>();
             try
             {
+
                 DataBaseManager.Instance.openConnetion();
                 SqlCommand cmd = new SqlCommand("GetHalls", DataBaseManager.Instance.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-
                     SqlHall sqlHall = new SqlHall(
                         (int)reader["id_sali"],
                         (string)reader["nazwa_lokalizacji"],
@@ -103,14 +149,14 @@ namespace muzeum_v3.Models
             try
             {
                 DataBaseManager.Instance.openConnetion();
-                SqlCommand cmd = new SqlCommand("UpdateLocation", DataBaseManager.Instance.Connection);
+                SqlCommand cmd = new SqlCommand("UpdateHall", DataBaseManager.Instance.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@id_sali", SqlDbType.Int, 4);
                 cmd.Parameters["@id_sali"].Value = p.HallId;
                 cmd.Parameters.Add("@nazwa_lokalizacji", SqlDbType.VarChar, 50);
                 cmd.Parameters["@nazwa_lokalizacji"].Value = p.LocationName;
                 cmd.Parameters.Add("@nazwa_sali", SqlDbType.VarChar, 50);
-                cmd.Parameters["@nazwa_sali"].Value = p.LocationName;
+                cmd.Parameters["@nazwa_sali"].Value = p.HallName;
                 cmd.Parameters.Add("@opis_sali", SqlDbType.VarChar, 150);
                 cmd.Parameters["@opis_sali"].Value = p.Description;
                 int rows = 0;
@@ -145,7 +191,7 @@ namespace muzeum_v3.Models
                 cmd.Parameters.Add("@nazwa_lokalizacji", SqlDbType.VarChar, 50);
                 cmd.Parameters["@nazwa_lokalizacji"].Value = p.LocationName;
                 cmd.Parameters.Add("@nazwa_sali", SqlDbType.VarChar, 50);
-                cmd.Parameters["@nazwa_sali"].Value = p.LocationName;
+                cmd.Parameters["@nazwa_sali"].Value = p.HallName;
                 cmd.Parameters.Add("@opis_sali", SqlDbType.VarChar, 150);
                 cmd.Parameters["@opis_sali"].Value = p.Description;
                 cmd.Parameters.Add("@id_sali", SqlDbType.Int, 4);

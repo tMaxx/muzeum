@@ -8,6 +8,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using muzeum_v3.Models;
 using muzeum_v3.ViewModels.Exhibit;
+using System.Xml.Linq;
+using System.Data.Linq;
+using System.Data.Linq.SqlClient;
 
 namespace muzeum_v3.Models
 {
@@ -15,10 +18,13 @@ namespace muzeum_v3.Models
     {
         public bool hasError = false;
         public string errorMessage;
+        XDocument documentXML = new XDocument();
 
         public MyObservableCollection<Exhibit> GetExhibits()
         {
+
             hasError = false;
+            //XElement item = new XElement("XMLEksponaty.xml");
             MyObservableCollection<Exhibit> exhibits = new MyObservableCollection<Exhibit>();
             try
             {
@@ -28,7 +34,6 @@ namespace muzeum_v3.Models
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-
                     SqlExhibit sqlExhibit = new SqlExhibit(
                         (int)reader["id_eksponatu"],
                         (string)reader["nazwa_eksponatu"],
@@ -36,6 +41,11 @@ namespace muzeum_v3.Models
                         (string)reader["nazwa_autora"],
                         (string)reader["nazwa_wlasciciela"]);
                     exhibits.Add(sqlExhibit.SqlExhibit2Exhibit());
+               //     item.SetElementValue("id_eksponatu", sqlExhibit.ExhibitId);
+               //     item.SetElementValue("nazwa_eksponatu", sqlExhibit.ExhibitName);
+               //     item.SetElementValue("opis_eksponatu", sqlExhibit.Description);
+               //     item.SetElementValue("nazwa_autora", sqlExhibit.Author);
+               //     item.SetElementValue("nazwa_wlasciciela", sqlExhibit.Owner);
                 } 
             }
             catch (SqlException ex)
@@ -52,6 +62,20 @@ namespace muzeum_v3.Models
             {
                 DataBaseManager.Instance.closeConnetion();
             }
+/*
+            var query = from e in documentXML.Descendants("Eksponat")
+                        select e;
+
+            foreach (XElement xe in query)
+            {
+                query.First().Element("id_eksponatu").Value = xe..Text;
+                query.First().Element("nazwa_eksponatu").Value = txt_termin.Text;
+                query.First().Element("opis_eksponatu").Value = txt_miejsce.Text;
+                query.First().Element("nazwa_autora").Value = txt_miejsce.Text;
+                query.First().Element("nazwa_wlasciciela").Value = txt_miejsce.Text;
+            }
+*/
+           // documentXML.Save("XMLEksponaty.xml");
             return exhibits;
         }
 
@@ -99,7 +123,146 @@ namespace muzeum_v3.Models
             }
             return Exhibits;
         }
-       
+
+        public MyObservableCollection<Exhibit> SuperQuery(string exhibitName, string author, string owner)
+        {
+            hasError = false;
+            MyObservableCollection<Exhibit> exhibits_ObservableCollection = new MyObservableCollection<Exhibit>();
+            List<SqlExhibit> exhibits_List = new List<SqlExhibit>();
+
+            LinqDataContext connection = new LinqDataContext();
+            connection.Connection.Open();
+
+            try
+            {
+                exhibits_List =  (from e in connection.Eksponats
+                                  where SqlMethods.Like(e.nazwa_eksponatu, "%" + exhibitName + "%")
+                                  && SqlMethods.Like(e.Autor.nazwa_autora, "%" + author + "%")
+                                  && SqlMethods.Like(e.Wlasciciel.nazwa_wlasciciela, "%" + owner + "%")
+                                  select new SqlExhibit(
+                                        e.id_eksponatu,
+                                        e.nazwa_eksponatu,
+                                        e.opis_eksponatu,
+                                        e.Autor.nazwa_autora,
+                                        e.Wlasciciel.nazwa_wlasciciela)).ToList();
+            }
+            catch (SqlException ex)
+            {
+                errorMessage = "SuperQuery SQL error, " + ex.Message;
+                hasError = true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "SuperQuery error, " + ex.Message;
+                hasError = true;
+            }
+            finally
+            {
+                connection.Connection.Close();
+            }
+
+            foreach (SqlExhibit e in exhibits_List)
+            {
+                exhibits_ObservableCollection.Add(e.SqlExhibit2Exhibit());
+            }
+
+            return exhibits_ObservableCollection;
+        }
+
+        public MyObservableCollection<Exhibit> GetExhibitsForAuthor(int idAuthor)
+        {
+            hasError = false;
+            MyObservableCollection<Exhibit> Exhibits = new MyObservableCollection<Exhibit>();
+            try
+            {
+                string queryString =
+                "SELECT E.id_eksponatu, E.nazwa_eksponatu,  E.opis_eksponatu,  A.nazwa_autora, O.nazwa_wlasciciela " +
+                "From dbo.Eksponat AS E " +
+                "JOIN dbo.Wlasciciel AS O " +
+                    "ON E.id_wlasciciela = O.id_wlasciciela " +
+                "JOIN dbo.Autor AS A " +
+                    "ON E.id_autora = A.id_autora where A.id_autora = @idAuthor";
+                DataBaseManager.Instance.openConnetion();
+                SqlCommand cmd = new SqlCommand(queryString, DataBaseManager.Instance.Connection);
+                cmd.Parameters.AddWithValue("@idAuthor", idAuthor);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    SqlExhibit sqlExhibit = new SqlExhibit(
+                         (int)reader["id_eksponatu"],
+                        (string)reader["nazwa_eksponatu"],
+                        (string)reader["opis_eksponatu"],
+                        (string)reader["nazwa_autora"],
+                        (string)reader["nazwa_wlasciciela"]);
+                    Exhibits.Add(sqlExhibit.SqlExhibit2Exhibit());
+                }
+            }
+            catch (SqlException ex)
+            {
+                errorMessage = "GetExhibitsInLocation SQL error, " + ex.Message;
+                hasError = true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "GetExhibitsInLocation error, " + ex.Message;
+                hasError = true;
+            }
+            finally
+            {
+                DataBaseManager.Instance.closeConnetion();
+            }
+            return Exhibits;
+        }
+
+        public MyObservableCollection<Exhibit> GetExhibitsForOwner(int idOwner)
+        {
+            hasError = false;
+            MyObservableCollection<Exhibit> Exhibits = new MyObservableCollection<Exhibit>();
+            try
+            {
+                string queryString =
+                "SELECT E.id_eksponatu, E.nazwa_eksponatu,  E.opis_eksponatu,  A.nazwa_autora, O.nazwa_wlasciciela " +
+                "From dbo.Eksponat AS E " +
+                "JOIN dbo.Autor AS A " +
+                    "ON E.id_autora = A.id_autora " +
+                "JOIN dbo.Wlasciciel AS O " +
+                    "ON E.id_wlasciciela = O.id_wlasciciela where O.id_wlasciciela = @idOwner";
+                DataBaseManager.Instance.openConnetion();
+                SqlCommand cmd = new SqlCommand(queryString, DataBaseManager.Instance.Connection);
+                cmd.Parameters.AddWithValue("@idOwner", idOwner);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    SqlExhibit sqlExhibit = new SqlExhibit(
+                         (int)reader["id_eksponatu"],
+                        (string)reader["nazwa_eksponatu"],
+                        (string)reader["opis_eksponatu"],
+                        (string)reader["nazwa_autora"],
+                        (string)reader["nazwa_wlasciciela"]);
+                    Exhibits.Add(sqlExhibit.SqlExhibit2Exhibit());
+                }
+            }
+            catch (SqlException ex)
+            {
+                errorMessage = "GetExhibitsForOwner SQL error, " + ex.Message;
+                hasError = true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "GetExhibitsForOwner error, " + ex.Message;
+                hasError = true;
+            }
+            finally
+            {
+                DataBaseManager.Instance.closeConnetion();
+            }
+            return Exhibits;
+        }
+
         public bool UpdateExhibit(Exhibit displayP)
         {
             SqlExhibit p = new SqlExhibit(displayP);
@@ -207,6 +370,50 @@ namespace muzeum_v3.Models
                 DataBaseManager.Instance.closeConnetion();
             }
             return !hasError;
-        } 
+        }
+
+        internal MyObservableCollection<Exhibit> GetExhibitsForHall(int p)
+        {
+            hasError = false;
+            MyObservableCollection<Exhibit> Exhibits = new MyObservableCollection<Exhibit>();
+            try
+            {
+                string queryString =
+                "SELECT E.id_eksponatu,E.nazwa_eksponatu,E.opis_eksponatu,(Select nazwa_autora from Autor where id_autora = E.id_autora) as nazwa_autora," +
+                "(Select nazwa_wlasciciela from Wlasciciel where id_wlasciciela = E.id_wlasciciela) as nazwa_wlasciciela from dbo.Eksponat E " +
+                "where  (Select id_prezentacji from Prezentacje where id_eksponatu = E.id_eksponatu) IN (Select id_prezentacji from Prezentacje where id_sali = @p)";
+                DataBaseManager.Instance.openConnetion();
+                SqlCommand cmd = new SqlCommand(queryString, DataBaseManager.Instance.Connection);
+                cmd.Parameters.AddWithValue("@p", p);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    SqlExhibit sqlExhibit = new SqlExhibit(
+                         (int)reader["id_eksponatu"],
+                        (string)reader["nazwa_eksponatu"],
+                        (string)reader["opis_eksponatu"],
+                        (string)reader["nazwa_autora"],
+                        (string)reader["nazwa_wlasciciela"]);
+                    Exhibits.Add(sqlExhibit.SqlExhibit2Exhibit());
+                }
+            }
+            catch (SqlException ex)
+            {
+                errorMessage = "GetExhibitsInLocation SQL error, " + ex.Message;
+                hasError = true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "GetExhibitsInLocation error, " + ex.Message;
+                hasError = true;
+            }
+            finally
+            {
+                DataBaseManager.Instance.closeConnetion();
+            }
+            return Exhibits;
+        }
     }
 }

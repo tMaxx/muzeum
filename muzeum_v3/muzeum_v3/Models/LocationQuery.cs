@@ -7,12 +7,56 @@ using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using muzeum_v3.ViewModels.Location;
+using System.Data.Linq.SqlClient;
+
 namespace muzeum_v3.Models
 {
     public class LocationQuery
     {
         public bool hasError = false;
         public string errorMessage;
+
+        public MyObservableCollection<Location> SuperQuery(string locationName)
+        {
+            hasError = false;
+            MyObservableCollection<Location> locations_ObservableCollection = new MyObservableCollection<Location>();
+            List<SqlLocation> locations_List = new List<SqlLocation>();
+
+            LinqDataContext connection = new LinqDataContext();
+            connection.Connection.Open();
+
+            try
+            {
+                locations_List = (from e in connection.Lokalizacjas
+                                 where SqlMethods.Like(e.nazwa_lokalizacji, "%" + locationName + "%")
+                                  select new SqlLocation(
+                                       e.id_lokalizacji,
+                                       e.nazwa_lokalizacji,
+                                       e.opis_lokalizacji))
+                                       .ToList();
+            }
+            catch (SqlException ex)
+            {
+                errorMessage = "SuperQuery SQL error, " + ex.Message;
+                hasError = true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "SuperQuery error, " + ex.Message;
+                hasError = true;
+            }
+            finally
+            {
+                connection.Connection.Close();
+            }
+
+            foreach (SqlLocation e in locations_List)
+            {
+                locations_ObservableCollection.Add(e.SqlLocation2Location());
+            }
+
+            return locations_ObservableCollection;
+        }
 
         public MyObservableCollection<Location> GetLocations()
         {

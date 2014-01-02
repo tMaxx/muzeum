@@ -21,8 +21,20 @@ namespace muzeum_v3.ViewModels.Org
             App.Messenger.Register("GetOrgs", (Action)(() => GetOrgs()));
             App.Messenger.Register("UpdateOrg", (Action<Org>)(param => UpdateOrg(param)));
             App.Messenger.Register("AddOrg", (Action<Org>)(param => AddOrg(param)));
+           
+            App.Messenger.Register("UseSuperQueryOrg", (Action<OrgParameters>)(param => UseSuperQueryOrg(param)));
         }
 
+        private void UseSuperQueryOrg(OrgParameters e)
+        {
+            if (e != null)
+            {
+                DataItems = App.OrgQuery.SuperQuery(e.OrgNameParameter, e.City);
+                if (App.OrgQuery.hasError)
+                    App.Messenger.NotifyColleagues("SetStatus", App.OrgQuery.errorMessage);
+            }
+
+        }
         private void AddOrg(Org e)
         {
             dataItems.Add(e);

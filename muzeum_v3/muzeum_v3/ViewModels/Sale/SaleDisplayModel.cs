@@ -46,6 +46,7 @@ namespace muzeum_v3.ViewModels.Sale
                     return;
                 }
             App.Messenger.NotifyColleagues("AddSale", DisplayedSale);
+            App.Messenger.NotifyColleagues("UpdateSaleForExposition");
         }
 
         public SaleDisplayModel()

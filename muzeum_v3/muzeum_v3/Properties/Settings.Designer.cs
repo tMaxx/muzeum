@@ -32,5 +32,15 @@ namespace muzeum_v3.Properties {
                 return ((string)(this["muzeum_v4ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=JA-Komputer;Initial Catalog=muzeum;Integrated Security=True")]
+        public string muzeumConnectionString {
+            get {
+                return ((string)(this["muzeumConnectionString"]));
+            }
+        }
     }
 }

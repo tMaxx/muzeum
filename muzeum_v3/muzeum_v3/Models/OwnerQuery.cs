@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using muzeum_v3.Models;
 using muzeum_v3.ViewModels.Owner ;
+using System.Data.Linq.SqlClient;
 
 namespace muzeum_v3.Models
 {
@@ -15,6 +16,53 @@ namespace muzeum_v3.Models
     {
         public bool hasError = false;
         public string errorMessage;
+
+        public MyObservableCollection<Owner> SuperQuery(string ownerName, string city, string country)
+        {
+            hasError = false;
+            MyObservableCollection<Owner> owners_ObservableCollection = new MyObservableCollection<Owner>();
+            List<SqlOwner> owners_List = new List<SqlOwner>();
+
+            LinqDataContext connection = new LinqDataContext();
+            connection.Connection.Open();
+
+            try
+            {
+                owners_List = (from e in connection.Wlasciciels
+                                 where SqlMethods.Like(e.nazwa_wlasciciela, "%" + ownerName + "%")
+                                 && SqlMethods.Like(e.miasto_wlasciciela, "%" + city + "%")
+                                 && SqlMethods.Like(e.kraj_wlasciciela, "%" + country + "%")
+                               select new SqlOwner(
+                                       e.id_wlasciciela,
+                                       e.nazwa_wlasciciela,
+                                       e.miasto_wlasciciela,
+                                       e.kraj_wlasciciela,
+                                       e.email_wlasciciela,
+                                       e.telefon_wlasciciela))
+                                       .ToList();
+            }
+            catch (SqlException ex)
+            {
+                errorMessage = "SuperQuery SQL error, " + ex.Message;
+                hasError = true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "SuperQuery error, " + ex.Message;
+                hasError = true;
+            }
+            finally
+            {
+                connection.Connection.Close();
+            }
+
+            foreach (SqlOwner e in owners_List)
+            {
+                owners_ObservableCollection.Add(e.SqlOwner2Owner());
+            }
+
+            return owners_ObservableCollection;
+        }
 
         public MyObservableCollection<Owner> GetOwners()
         {

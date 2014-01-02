@@ -1,4 +1,4 @@
-USE muzeum_v4
+USE muzeum
 GO
 
 CREATE PROCEDURE [dbo].[GetExhibits]
@@ -13,7 +13,7 @@ BEGIN
 END
 GO
 
-Alter PROCEDURE [dbo].[UpdateExhibit]
+Create PROCEDURE [dbo].[UpdateExhibit]
 (
   @id_eksponatu int,
   @nazwa_eksponatu nvarchar(50),
@@ -85,6 +85,8 @@ BEGIN TRY
     BEGIN
         INSERT INTO dbo.Wlasciciel(nazwa_wlasciciela,miasto_wlasciciela,kraj_wlasciciela,email_wlasciciela,telefon_wlasciciela) VALUES (@wlasciciel_eksponatu,'bd','bd','bd','bd')
     END
+	IF NOT EXISTS(SELECT 1 FROM Eksponat WHERE nazwa_eksponatu=@nazwa_eksponatu)
+	BEGIN
     DECLARE @AuthorID int
 	DECLARE @OwnerID int
     SET @AuthorID = (SELECT id_autora FROM dbo.Autor WHERE nazwa_autora=@autor_eksponatu)
@@ -93,6 +95,7 @@ BEGIN TRY
     VALUES (@nazwa_eksponatu, @opis_eksponatu, @AuthorID, @OwnerID);
     COMMIT TRANSACTION
     SET @id_eksponatu = SCOPE_IDENTITY();
+	END
 END TRY
 BEGIN CATCH
     IF @@TRANCOUNT > 0

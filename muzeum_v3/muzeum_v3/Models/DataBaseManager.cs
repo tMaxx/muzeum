@@ -8,7 +8,7 @@ namespace muzeum_v3.Models
 {
     class DataBaseManager
     {
-        private static readonly DataBaseManager instance = new DataBaseManager("muzeum_v4");
+        private static readonly DataBaseManager instance = new DataBaseManager("muzeum");
         public System.Data.SqlClient.SqlConnection Connection { get; set; }
         public static DataBaseManager Instance
         {

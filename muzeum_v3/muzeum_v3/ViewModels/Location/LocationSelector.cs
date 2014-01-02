@@ -21,6 +21,19 @@ namespace muzeum_v3.ViewModels.Location
             App.Messenger.Register("GetLocations", (Action)(() => GetLocations()));
             App.Messenger.Register("UpdateLocation", (Action<Location>)(param => UpdateLocation(param)));
             App.Messenger.Register("AddLocation", (Action<Location>)(param => AddLocation(param)));
+
+            App.Messenger.Register("UseSuperQueryLocation", (Action<LocationParameters>)(param => UseSuperQueryLocation(param)));    
+
+        }
+
+        private void UseSuperQueryLocation(LocationParameters e)
+        {
+            if (e != null)
+            {
+                DataItems = App.LocationQuery.SuperQuery(e.LocationNameParameter);
+                if (App.LocationQuery.hasError)
+                    App.Messenger.NotifyColleagues("SetStatus", App.LocationQuery.errorMessage);
+            }
         }
 
         private void AddLocation(Location e)

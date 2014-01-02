@@ -1,6 +1,6 @@
-create database muzeum_v4
+create database muzeum
 GO
-USE muzeum_v4
+USE muzeum
 GO
 
 sp_addtype string, 'varchar(50)'

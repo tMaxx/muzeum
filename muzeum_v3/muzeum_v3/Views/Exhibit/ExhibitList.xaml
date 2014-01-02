@@ -9,7 +9,7 @@
         <vm:ExhibitSelector />
     </UserControl.DataContext>
     <Grid>
-        <ListView Grid.Row="0" ItemsSource="{Binding DataItemsForExposition}"
+        <ListView Grid.Row="0" ItemsSource="{Binding DataItemsForSearch}"
                 foundation:CommandBehavior.RoutedEventName="SelectionChanged"
                 foundation:CommandBehavior.TheCommandToRun="{Binding Path=ListBoxCommand}">
             <ListView.View>

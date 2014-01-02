@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using muzeum_v3.Models;
 using muzeum_v3.ViewModels.Author;
+using System.Data.Linq.SqlClient;
 
 namespace muzeum_v3.Models
 {
@@ -16,6 +17,70 @@ namespace muzeum_v3.Models
         public bool hasError = false;
         public string errorMessage;
 
+
+        public MyObservableCollection<Author> SuperQuery(string authorName, DateTime birthFROM, DateTime birthTO,
+            DateTime deathFROM, DateTime deathTO)
+        {
+            hasError = false;
+            MyObservableCollection<Author> authors_ObservableCollection = new MyObservableCollection<Author>();
+            List<SqlAuthor> authors_List = new List<SqlAuthor>();
+            if(birthFROM == DateTime.MinValue) 
+            {
+                birthFROM = new DateTime(1000, 01, 01);
+            }
+            if (birthTO == DateTime.MinValue)
+            {
+                birthTO = new DateTime(3000, 01, 01);
+            }
+            if (deathFROM == DateTime.MinValue)
+            {
+                deathFROM = new DateTime(1000, 01, 01);
+            }
+            if (deathTO == DateTime.MinValue)
+            {
+                deathTO = new DateTime(3000, 01, 01);
+            }
+            LinqDataContext connection = new LinqDataContext();
+            connection.Connection.Open();
+            
+            try
+            {
+                authors_List = (from e in connection.Autors
+                                where 
+                                SqlMethods.Like(e.nazwa_autora, "%" + authorName + "%")
+                                && e.data_urodzenia >= birthFROM 
+                                && e.data_urodzenia <= birthTO
+                                && e.data_smierci >= deathFROM 
+                                && e.data_smierci <= deathTO 
+                                select new SqlAuthor(
+                                       e.id_autora,
+                                       e.nazwa_autora,
+                                       (DateTime)e.data_urodzenia,
+                                       (DateTime)e.data_smierci,
+                                       e.opis_autora)).ToList();
+            }   
+            catch (SqlException ex)
+            {
+                errorMessage = "SuperQuery SQL error, " + ex.Message;
+                hasError = true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "SuperQuery error, " + ex.Message;
+                hasError = true;
+            }
+            finally
+            {
+                connection.Connection.Close();
+            }
+
+            foreach (SqlAuthor e in authors_List)
+            {
+                authors_ObservableCollection.Add(e.SqlAuthor2Author());
+            }
+
+            return authors_ObservableCollection;
+        }
         public MyObservableCollection<Author> GetAuthors()
         {
             hasError = false;

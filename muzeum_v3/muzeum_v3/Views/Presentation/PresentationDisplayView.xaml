@@ -44,6 +44,7 @@
 
             <TextBlock Margin="7" Grid.Row="2"><Run Text="Ekspozycja:"/></TextBlock>
             <Exposition:ExpositionSelector2 Grid.Column="1" HorizontalAlignment="Left" Margin="0,25,0,0" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" Width="185"/>
+      
             <TextBox Margin="3,5,5,5" Grid.Row="3"  BorderBrush="{Binding Stat.Exposition}" BorderThickness="1"
     			Text="{Binding DisplayedPresentation.Exposition, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
 
@@ -52,7 +53,7 @@
     			Text="{Binding DisplayedPresentation.Location, UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBlock Margin="7" Grid.Row="5"><Run Text="Sala:"/></TextBlock>
-            <Hall:HallSelector2 HorizontalAlignment="Left" Margin="107,25,-2,0" Grid.Row="4" Grid.RowSpan="3" VerticalAlignment="Top" Width="191" Grid.ColumnSpan="2"/>
+          
             <TextBox Margin="6,5,5,5" Grid.Row="6"  BorderBrush="{Binding Stat.Hall}" BorderThickness="1"
     			Text="{Binding DisplayedPresentation.Hall, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
 
@@ -67,6 +68,7 @@
             <TextBlock Margin="11,12,11,13" Grid.Row="9"><Run Text="Status:"/></TextBlock>
             <TextBox Margin="7" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" 
     			Text="{Binding Stat.Status}"/>
+            <Hall:HallSelectorComboBox HorizontalAlignment="Left" Margin="106,28,-1,0" Grid.Row="4" Grid.RowSpan="3" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="191"/>
         </Grid>
     </Grid>
 </UserControl>

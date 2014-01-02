@@ -113,11 +113,27 @@ namespace muzeum_v3.ViewModels.Exposition
         public ExpositionDisplayModel()
         {
             Messenger messenger = App.Messenger;
+            messenger.Register("AddSale", (Action<Sale.Sale>)(param => Sold(param)));
             messenger.Register("ChangeLocationName", (Action<String>)(param => ChangeLocationName(param)));
             messenger.Register("ChangeOrgName", (Action<String>)(param => ChangeOrgName(param)));
             messenger.Register("ExpositionSelectionChanged", (Action<Exposition>)(param => ProcessExposition(param)));
             messenger.Register("SetStatus", (Action<String>)(param => stat.Status = param));
             messenger.Register("Clear", (Action)(()=>ClearExpositionDisplay()));
+        }
+
+        public void Sold(Sale.Sale p)
+        {
+            if (p == null)
+            {
+                isSelected = false; return;
+            }
+            Exposition temp = new Exposition();
+            temp.CopyExposition(DisplayedExposition);
+            temp.NumberOfTickets += p.NumberOfTickets;
+            temp.Profit += p.PriceOfTicket * p.NumberOfTickets;
+            DisplayedExposition = temp;
+            isSelected = true;
+            stat.clearStatus();
         }
 
         public void ProcessExposition(Exposition p)

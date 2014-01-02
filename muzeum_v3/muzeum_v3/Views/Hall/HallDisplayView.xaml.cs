@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using muzeum_v3.Views.Location;
 
 namespace muzeum_v3.Views.Hall
 {
@@ -23,6 +24,11 @@ namespace muzeum_v3.Views.Hall
         public HallDisplayView()
         {
             InitializeComponent();
+        }
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Window window = new AddLocationWindow();
+            window.Show();
         }
     }
 }

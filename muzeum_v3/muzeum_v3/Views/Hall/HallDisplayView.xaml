@@ -13,12 +13,14 @@
         </Grid.RowDefinitions>
 
         <StackPanel  HorizontalAlignment="Left" Orientation="Horizontal" Margin="5,2,10,10">
-            <Button Command="{Binding GetHallsCommand}" Margin="2,5,0,0"  Padding="5" Background="Black" Height="35" Width="70" 
-                  >Refresh</Button>
-            <Button Margin="2,5,0,0"  Padding="2" Background="Black" Height="35" Width="50"
-                  Command="{Binding ClearCommand}">Clear</Button>
-            <Button Margin="2,5,0,0"  Padding="2" Background="Black" Height="35" Width="50"
-                  Command="{Binding UpdateCommand}">Update</Button>
+            <Button Command="{Binding GetHallsCommand}" Margin="2,5,0,0"  Padding="5" Background="Black" Height="35" Width="60" 
+                  >Odśwież</Button>
+            <Button Margin="2,5,0,0"  Padding="2" Background="Black" Height="35" Width="60"
+                  Command="{Binding ClearCommand}">Wyczyść</Button>
+            <Button Margin="2,5,0,0"  Padding="2" Background="Black" Height="35" Width="60"
+                  Command="{Binding UpdateCommand}">Aktualizuj</Button>
+            <Button Margin="2,5,0,0"  Padding="2" Background="Black" Height="35" Width="60"
+                  Command="{Binding AddCommand}">Dodaj</Button>
 
         </StackPanel>
         <Grid Margin="10" Grid.Row="1">
@@ -31,8 +33,10 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
@@ -41,7 +45,7 @@
             <TextBox Margin="5" Grid.Row="1" Grid.Column="1"  BorderBrush="{Binding Path=Stat.HallName}" BorderThickness="1"
                      Text="{Binding Path=DisplayedHall.HallName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-            <TextBlock Margin="7" Grid.Row="2">Lokalizacja:</TextBlock>
+            <Button Content="Lokalizacja" Margin="7" Grid.Row="2" Background="Black" Height="25" Width="130" Click="Button_Click_1"/>
             <TextBox Margin="5" Grid.Row="2" Grid.Column="1"  BorderBrush="{Binding Path=Stat.LocationName}" BorderThickness="1"
                      Text="{Binding Path=DisplayedHall.LocationName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 

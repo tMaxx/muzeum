@@ -1,0 +1,75 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:muzeum_v3.ViewModels.Presentation" xmlns:Exposition="clr-namespace:muzeum_v3.Views.Exposition" xmlns:Hall="clr-namespace:muzeum_v3.Views.Hall" 
+    x:Class="muzeum_v3.Views.Presentation.UpdatePresentationView" Height="362.7"
+    >
+    <UserControl.DataContext>
+        <vm:PresentationDisplayModel/>
+    </UserControl.DataContext>
+    <Grid Width="316">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel  HorizontalAlignment="Left" Orientation="Horizontal" Margin="5,2,10,10">
+            <Button Margin="2,5,0,0"  Padding="2" Background="Black" Height="35" Width="60"
+                  Command="{Binding ClearCommand}" Content="Wyczyść"/>
+            <Button Margin="2,5,0,0"  Padding="2" Background="Black" Height="35" Width="60"
+                  Command="{Binding UpdateCommand}" Content="Aktualizuj"/>
+
+        </StackPanel>
+        <Grid Margin="10,10,10,-3" Grid.Row="1" RenderTransformOrigin="0.51,0.544">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+
+            <TextBlock Margin="7" Grid.Row="1"><Run Text="Eksponat:"/></TextBlock>
+            <TextBox Margin="5" Grid.Row="1" Grid.Column="1"  BorderBrush="{Binding Stat.PresentedExhibit}" BorderThickness="1"
+    			Text="{Binding DisplayedPresentation.PresentedExhibit, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Margin="7" Grid.Row="2"><Run Text="Ekspozycja:"/></TextBlock>
+            <Exposition:ExpositionSelector2 Grid.Column="1" HorizontalAlignment="Left" Margin="0,25,0,0" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" Width="185"/>
+
+            <TextBox Margin="3,5,5,5" Grid.Row="3"  BorderBrush="{Binding Stat.Exposition}" BorderThickness="1"
+    			Text="{Binding DisplayedPresentation.Exposition, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
+
+            <TextBlock Margin="7" Grid.Row="4"><Run Text="Lokalizacja:"/></TextBlock>
+            <TextBox Margin="5" Grid.Row="4" Grid.Column="1"  BorderBrush="{Binding Stat.Location}" BorderThickness="1"
+    			Text="{Binding DisplayedPresentation.Location, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Margin="7" Grid.Row="5"><Run Text="Sala:"/></TextBlock>
+
+            <TextBox Margin="6,5,5,5" Grid.Row="6"  BorderBrush="{Binding Stat.Hall}" BorderThickness="1"
+    			Text="{Binding DisplayedPresentation.Hall, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
+
+            <TextBlock Margin="7" Grid.Row="7"><Run Text="Data rozpoczęcia:"/></TextBlock>
+            <TextBox Margin="5" Grid.Row="7" Grid.Column="1"  BorderBrush="{Binding Stat.DateOfBegin}" BorderThickness="1"
+    			Text="{Binding DisplayedPresentation.DateOfBegin, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Margin="7" Grid.Row="8"><Run Text="Data zakończenia:"/></TextBlock>
+            <TextBox Margin="5" Grid.Row="8" Grid.Column="1"  BorderBrush="{Binding Stat.DateOfEnd}" BorderThickness="1"
+    			Text="{Binding DisplayedPresentation.DateOfEnd, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Margin="11,12,11,13" Grid.Row="9"><Run Text="Status:"/></TextBlock>
+            <TextBox Margin="7" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" 
+    			Text="{Binding Stat.Status}"/>
+            <Hall:HallSelectorComboBox HorizontalAlignment="Left" Margin="106,28,-1,0" Grid.Row="4" Grid.RowSpan="3" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="191"/>
+        </Grid>
+    </Grid>
+</UserControl>
