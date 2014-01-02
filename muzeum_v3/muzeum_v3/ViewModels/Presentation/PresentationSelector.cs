@@ -20,6 +20,13 @@ namespace muzeum_v3.ViewModels.Presentation
             App.Messenger.Register("ExhibitSelectionChanged", (Action<Exhibit.Exhibit>)(param => GetPresentations(param)));
             App.Messenger.Register("UpdatePresentation", (Action<Presentation>)(param => UpdatePresentation(param)));
             App.Messenger.Register("AddPresentation", (Action<Presentation>)(param => AddPresentation(param)));
+            App.Messenger.Register("DeletePresentation", (Action)(() => DeletePresentation()));
+
+        }
+
+        private void DeletePresentation()
+        {
+            dataItems.Remove(SelectedPresentation);
         }
 
         private void AddPresentation(Presentation e)

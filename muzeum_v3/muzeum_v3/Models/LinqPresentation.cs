@@ -144,5 +144,34 @@ namespace muzeum_v3.Models
             
             return !hasError;
         }
+        public bool DeletePresentation(int id)
+        {
+           
+            hasError = false;
+            try
+            {
+                LinqDataContext connetion = new LinqDataContext();
+
+                var deleteItem =
+                from item in connetion.Prezentacjes
+                where item.id_prezentacji == id
+                select item;
+
+            if (deleteItem != null)
+            {
+                connetion.Prezentacjes.DeleteOnSubmit(deleteItem.First());
+            }
+                connetion.SubmitChanges();
+
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "ADD error, " + ex.Message;
+                hasError = true;
+            }
+
+            return !hasError;
+
+        }
     }
 }

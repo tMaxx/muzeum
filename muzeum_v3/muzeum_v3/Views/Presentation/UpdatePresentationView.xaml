@@ -18,6 +18,8 @@
                   Command="{Binding ClearCommand}" Content="Wyczyść"/>
             <Button Margin="2,5,0,0"  Padding="2" Background="Black" Height="35" Width="60"
                   Command="{Binding UpdateCommand}" Content="Aktualizuj"/>
+            <Button Margin="2,5,0,0"  Padding="2" Background="Black" Height="35" Width="60"
+                  Command="{Binding DeleteCommand}" Content="Usuń"/>
 
         </StackPanel>
         <Grid Margin="10,10,10,-3" Grid.Row="1" RenderTransformOrigin="0.51,0.544">

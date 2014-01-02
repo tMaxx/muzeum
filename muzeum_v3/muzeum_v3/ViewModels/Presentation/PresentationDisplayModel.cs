@@ -30,6 +30,24 @@ namespace muzeum_v3.ViewModels.Presentation
         private RelayCommand clearCommand;
         private RelayCommand updateCommand;
         private RelayCommand addCommand;
+        private RelayCommand deleteCommand;
+
+
+        public ICommand DeleteCommand
+        {
+            get { return deleteCommand ?? (deleteCommand = new RelayCommand(() => DeletePresentation(), () => isSelected)); }
+        }
+
+        private void DeletePresentation()
+        {
+            if (!App.LinqPresentation.DeletePresentation(DisplayedPresentation.PresentationId))
+            {
+                stat.Status = App.LinqPresentation.errorMessage;
+                return;
+            }
+            isSelected = false;
+            App.Messenger.NotifyColleagues("DeletePresentation");
+        }
 
         public Presentation DisplayedPresentation
         {
