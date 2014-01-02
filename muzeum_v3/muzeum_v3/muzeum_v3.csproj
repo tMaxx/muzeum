@@ -81,6 +81,7 @@
     <Compile Include="Models\LinqPresentation.cs" />
     <Compile Include="Models\OrgQuery.cs" />
     <Compile Include="Models\SaleQuery.cs" />
+    <Compile Include="Models\SimpleXML.cs" />
     <Compile Include="ViewModels\Author\AuthorSearch.cs" />
     <Compile Include="ViewModels\Exhibit\ExhibitSearch.cs" />
     <Compile Include="ViewModels\Exposition\ExpositionSearch.cs" />
@@ -513,11 +514,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="XMLEksponaty.xml">
-      <SubType>Designer</SubType>
-    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -94,16 +94,7 @@ namespace muzeum_v3.ViewModels.Exhibit
 
         private void GetExhibits()
         {
-            using (StreamWriter writer = new StreamWriter("Eksponaty.txt", true))
-            {
-                foreach (Exhibit e in DataItems)
-                {
-                    writer.WriteLine(e.ExhibitName + "\t" + e.ExhibitId + "\t" + e.Description + "\t" + e.Author + "\t" + e.Owner + "\t" + DataItems.IndexOf(e));
-
-                }
-                writer.WriteLine(DataItems.Count);
-            }
-
+          
             DataItems = App.ExhibitQuery.GetExhibits();
             if (App.ExhibitQuery.hasError)
                 App.Messenger.NotifyColleagues("SetStatus", App.ExhibitQuery.errorMessage);
@@ -118,13 +109,7 @@ namespace muzeum_v3.ViewModels.Exhibit
 
         private void UpdateExhibit(Exhibit e)
         {
-            using (StreamWriter writer = new StreamWriter("Update.txt", true))
-            {
-               
-                writer.WriteLine(e.ExhibitName + "\t" + e.ExhibitId + "\t" + e.Description + "\t" + e.Author  + "\t" + e.Owner   + "\t" +  DataItems.IndexOf(e));
-                writer.WriteLine(DataItems.Count);
-            }
-            if (e == null) return;
+            if (selectedExhibit == null) return;
             int index = dataItems.IndexOf(selectedExhibit);
             dataItems.ReplaceItem(index, e);
             SelectedExhibit = e;

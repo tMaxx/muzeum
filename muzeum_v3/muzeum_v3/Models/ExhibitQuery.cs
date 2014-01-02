@@ -18,13 +18,12 @@ namespace muzeum_v3.Models
     {
         public bool hasError = false;
         public string errorMessage;
-        XDocument documentXML = new XDocument();
-
+        
         public MyObservableCollection<Exhibit> GetExhibits()
         {
 
             hasError = false;
-            //XElement item = new XElement("XMLEksponaty.xml");
+            SimpleXML.CreateXmlFile();
             MyObservableCollection<Exhibit> exhibits = new MyObservableCollection<Exhibit>();
             try
             {
@@ -265,6 +264,7 @@ namespace muzeum_v3.Models
 
         public bool UpdateExhibit(Exhibit displayP)
         {
+            SimpleXML.UpdateExhibitToXml(displayP);
             SqlExhibit p = new SqlExhibit(displayP);
             hasError = false;
             try
@@ -304,6 +304,7 @@ namespace muzeum_v3.Models
 
         public bool DeleteExhibit(int exhibitId)
         {
+            SimpleXML.DeleteExhibitToXml(exhibitId);
             hasError = false;
             try
             {
@@ -353,7 +354,9 @@ namespace muzeum_v3.Models
                 cmd.Parameters["@id_eksponatu"].Direction = ParameterDirection.Output;
                 int rows = cmd.ExecuteNonQuery();                       //Tworzy nowy eksponat w DB
                 p.ExhibitId = (int)cmd.Parameters["@id_eksponatu"].Value;  //zwraca ustalone id nowego eksponatu do nowego obiektul
-                displayP.toDataBase(p);                            //upadatuje odpowiedni Eksponat
+                displayP.toDataBase(p);
+                SimpleXML.AddExhibitToXml(displayP);
+           
             }
             catch (SqlException ex)
             {
